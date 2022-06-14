@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Cliente implements Serializable {
@@ -21,8 +23,12 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull(message = "O nome não pode ser nulo")
+	@NotEmpty(message = "O nome não pode ser vazio")
 	private String nome;
-
+	
+	@NotNull(message = "O cpf não pode ser nulo")
+	@NotEmpty(message = "O cpf não pode ser vazio")
 	private String cpf;
 
 	private String cep;

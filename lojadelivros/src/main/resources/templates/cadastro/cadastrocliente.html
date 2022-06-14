@@ -26,6 +26,7 @@
     <!-- End Navbar -->
     	<!-- Trabalhe aqui -->
    <form action="salvarcliente" method="post" th:object="${clienteobj}" enctype="multipart/form-data" id="formcliente" >
+   
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-md-8">
@@ -34,7 +35,17 @@
               <div class="d-flex align-items-center">
                 <p class="mb-0">Cadastro de Clientes</p>
               </div>
+              
+              	<br/>
+					<div th:each = "m : ${msg}">
+						<span th:text="${m}"></span>
+					</div>
+				<br/>
+              
             </div>
+            
+            
+			            
             <div class="card-body">
               <div class="row">
                 <div class="col-md-2">

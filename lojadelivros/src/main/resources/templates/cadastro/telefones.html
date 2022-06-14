@@ -73,6 +73,11 @@
 		              
 		              <p class="mb-0">Cadastro de Telefone</p>
 		              </br>
+		              	<br/>
+							<div th:each = "m : ${msg}">
+								<span th:text="${m}"></span>
+							</div>
+						<br/>
 		              </br>
 		               <form th:action="@{/addfonecliente/{clienteid}(clienteid=${clienteobj.id})}" method="post" id="formtelefone">
 		               		<div class="row">

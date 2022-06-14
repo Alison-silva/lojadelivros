@@ -3,8 +3,11 @@ package com.alison.lojadelivros.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,9 +74,24 @@ public class ClienteController {
 	
 
 	@RequestMapping(method = RequestMethod.POST, value = "**/salvarcliente", consumes = {"multipart/form-data"})
-	public ModelAndView salvar(Cliente cliente, final MultipartFile file) throws IOException {
+	public ModelAndView salvar(@Valid Cliente cliente,  BindingResult bindingResult, final MultipartFile file) throws IOException {
 		
 		cliente.setTelefones(telefoneRepository.getTelefones(cliente.getId()));
+		
+		if(bindingResult.hasErrors()) {
+			ModelAndView modelAndView = new ModelAndView("cadastro/cadastrocliente");
+			modelAndView.addObject("clienteobj", cliente);
+			
+			List<String> msg = new ArrayList<String>();
+			for(ObjectError objectError : bindingResult.getAllErrors()) {
+				msg.add(objectError.getDefaultMessage());
+			}
+			
+			modelAndView.addObject("msg", msg);
+			return modelAndView;
+		}
+		
+		
 		
 		if(file.getSize() > 0) {
 			cliente.setImage(file.getBytes());
@@ -163,6 +183,30 @@ public class ClienteController {
 			@PathVariable("clienteid") Long clienteid) {
 		
 		Cliente cliente = clienteRepository.findById(clienteid).get();
+		
+		if(telefone != null && telefone.getNumero().isEmpty() 
+				|| telefone.getTipo().isEmpty()) {
+			
+			ModelAndView modelAndView = new ModelAndView("cadastro/telefones");
+			modelAndView.addObject("clienteobj", cliente);
+			modelAndView.addObject("telefones", telefoneRepository.getTelefones(clienteid));
+			
+			List<String> msg = new ArrayList<String>();
+			if(telefone.getNumero().isEmpty()) {
+				msg.add("Numero deve ser informado");
+			}
+			
+			if(telefone.getTipo().isEmpty()) {
+				msg.add("Tipo deve ser informado");
+			}
+			
+			modelAndView.addObject("msg", msg);
+			
+			return modelAndView;
+			
+			
+		}
+
 		telefone.setCliente(cliente);
 		
 		telefoneRepository.save(telefone);
