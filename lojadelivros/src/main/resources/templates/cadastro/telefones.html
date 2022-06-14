@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html  xmlns:th="www.thymeleaf.org">
+
+<head>
+  <div th:replace="base :: conf2"></div>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div th:replace="navlateral :: navlateral"></div>
+  </aside>
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+   		<div th:replace="navbar :: navbar"></div>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row mt-4">
+        <div class="col-lg-5">
+          <div class="card card-carousel overflow-hidden h-100 p-0">
+            <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
+            </div>
+          </div>
+        </div>
+      </div>
+    	<!-- Trabalhe aqui -->
+		   	<div class="container-fluid py-2">
+		      <div class="row">
+		        <div class="col-md-10">
+		          <div class="card">
+		            <div class="card-header pb-0">
+		              <div class="d-flex align-items-center">
+		                <p class="mb-0">Detalhes do Cliente</p>
+		              </div>
+		            </div>
+		            
+		            <div class="card-body" th:each="c : ${clienteobj}">
+		              <div class="row">
+		                <div class="col-md-2">
+		                  <div class="form-group">
+		                 	<img th:src="@{/imagem/{idcliente}(idcliente=${c.id})}" 
+		                 	class="rounded-circle border-2 border-white" alt="" height="120px" width="120px">
+		                  </div>
+		                </div>
+		                
+		                <div class="col-md-5">
+		                  <div class="form-group" style="margin-left: 30px;">
+		                 	 <p>ID: <span th:text="${c.id}" ></span></p>
+		                 	 <p>Nome: <span th:text="${c.nome}" ></span></p>
+		                 	 <p>CPF: <span th:text="${c.cpf}" ></span></p>
+		                 	 <p>Endereço: <span th:text="${c.rua}" ></span></p>
+		                  </div>
+		                  
+		                </div>
+		          
+		                 <div class="col-md-5">
+		                  <div class="form-group" style="margin-left: 30px;">
+		                  	 <p>Bairro: <span th:text="${c.bairro}" ></span></p>
+		                 	 <p>Cidade: <span th:text="${c.cidade}" ></span></p>
+		                 	 <p>Estado: <span th:text="${c.uf}" ></span></p>
+		                 	 <p>CEP: <span th:text="${c.cep}" ></span></p>
+		                  </div>
+		                  
+		                </div>
+		                
+		              <hr class="horizontal dark"> 
+		              
+		              <!-- Cadastro de Telefones -->
+		              
+		              <p class="mb-0">Cadastro de Telefone</p>
+		              </br>
+		              </br>
+		               <form th:action="@{/addfonecliente/{clienteid}(clienteid=${clienteobj.id})}" method="post" id="formtelefone">
+		               		<div class="row">
+		               			  <div class="col-md-5">
+					                  <div class="form-group">
+					                    <label for="numero">Número</label>
+					                    <input class="form-control" type="text" id="numero" name="numero">
+					                  </div>
+					                </div>
+					                <div class="col-md-5">
+					                  <div class="form-group">
+					                    <label for="tipo" class="form-control-label">Tipo</label>
+					                    <input class="form-control" type="text" id="tipo" name="tipo">
+					                  </div>
+					                </div>
+		               		</div>
+		               		
+		               		<button type="submit" class="btn btn-primary">Adicionar</button>
+		               		<button type="button" class="btn btn-secondary" onclick="document.getElementById('formtelefone').reset();">Novo</button>
+		               		<a href="/listclientes"><button type="button"class="btn btn-success">Voltar</button></a> 
+		               		
+		               </form>
+		               
+		               <hr class="horizontal dark"> 
+		               <p class="mb-0">Lista de Telefones</p>
+		               </br>
+		              
+		     <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+              
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Número</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tipo</th> 
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <tr th:each="fone : ${telefones}">
+                    
+                    	<td th:text = "${fone.numero}"></td>
+                    
+       					<td th:text = "${fone.tipo}"></td>
+       					
+       				  	<td class="align-middle text-center">
+                       		<a onclick="return confirm('Deseja mesmo excluir?');"
+                       		   th:href="@{/removertelefone/{idtelefone}(idtelefone=${fone.id})}">Remover</a>
+                        </td> 
+                      
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+		              
+		            </div>
+		         </div>
+		       </div>
+		    </div>    
+		   </div>    
+		   </div>
+		   
+		 
+		 
+		   
+	</div>   
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  
+</body>
+
+</html> 
