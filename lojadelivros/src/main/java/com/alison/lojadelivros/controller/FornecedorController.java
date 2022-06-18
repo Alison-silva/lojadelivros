@@ -1,0 +1,113 @@
+package com.alison.lojadelivros.controller;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alison.lojadelivros.model.Fornecedor;
+import com.alison.lojadelivros.repository.FornecedorRepository;
+
+@Controller
+public class FornecedorController {
+
+	@Autowired
+	private FornecedorRepository fornecedorRepository;
+
+	@RequestMapping(method = RequestMethod.GET, value = "/listfornecedor")
+	public ModelAndView inicio() {
+		ModelAndView modelAndView = new ModelAndView("cadastro/listfornecedor");
+		
+		Iterable<Fornecedor> fornecedorIt = fornecedorRepository.findAll();
+		modelAndView.addObject("fornecedores", fornecedorIt);
+		
+		return modelAndView;
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/cadastrofornecedor")
+	public ModelAndView cadastro() {
+		ModelAndView modelAndView = new ModelAndView("cadastro/cadastrofornecedor");
+		modelAndView.addObject("fornecedorobj", new Fornecedor());
+		return modelAndView;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "**/salvarfornecedor", consumes = { "multipart/form-data" })
+	public ModelAndView salvar(Fornecedor fornecedor, final MultipartFile file) throws IOException {
+
+		if (file.getSize() > 0) {
+			fornecedor.setImagem(file.getBytes());
+		} else {
+			if (fornecedor.getId() != null && fornecedor.getId() > 0) {
+				byte[] imageTemp = fornecedorRepository.findById(fornecedor.getId()).get().getImagem();
+				fornecedor.setImagem(imageTemp);
+			}
+		}
+
+		fornecedorRepository.save(fornecedor);
+
+		ModelAndView andView = new ModelAndView("cadastro/listfornecedor");
+		Iterable<Fornecedor> fornecedorIt = fornecedorRepository.findAll();
+		andView.addObject("fornecedores", fornecedorIt);
+		andView.addObject("fornecedorobj", new Fornecedor());
+		return andView;
+	}
+	
+	 @RequestMapping(method = RequestMethod.GET, value = "/listafornecedor")
+	 public ModelAndView fornecedor() {
+		ModelAndView andView = new ModelAndView("cadastro/listfornecedor");
+		Iterable<Fornecedor> fornecedorIt = fornecedorRepository.findAll();
+		andView.addObject("fornecedores", fornecedorIt);
+		andView.addObject("fornecedorobj", new Fornecedor());
+		
+		return andView;
+	} 
+	 
+	 
+	 
+	 @GetMapping("/imagemFornecedor/{idfornecedor}")
+	 public void exibirImagemF(@PathVariable("idfornecedor") Long id, HttpServletResponse response) throws IOException {
+		response.setContentType("image/jpeg");
+		Fornecedor fornecedor = fornecedorRepository.findById(id).get();
+		InputStream is = new ByteArrayInputStream(fornecedor.getImagem());
+		IOUtils.copy(is, response.getOutputStream()); 
+	}
+	 
+	 
+	 @GetMapping("/editarfornecedor/{idfornecedor}")
+	 public ModelAndView editar(@PathVariable("idfornecedor") Long idfornecedor) {
+		
+		Fornecedor fornecedor = fornecedorRepository.findById(idfornecedor).get();
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/cadastrofornecedor");
+		modelAndView.addObject("fornecedorobj", fornecedor);
+		return modelAndView;
+	}
+	 
+	
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
