@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <div th:replace="base :: conf2"></div>
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div th:replace="navlateral :: navlateral"></div>
+  </aside>
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+   		<div th:replace="navbar :: navbar"></div>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row mt-4">
+        <div class="col-lg-5">
+          <div class="card card-carousel overflow-hidden h-100 p-0">
+            <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
+            </div>
+          </div>
+        </div>
+      </div>
+    	<!-- Trabalhe aqui -->
+    	<div class="container-fluid py-2">
+		      <div class="row">
+		        <div class="col-md-10">
+		          <div class="card">
+		            <div class="card-header pb-0">
+		              <div class="d-flex align-items-center">
+		                <p class="mb-0">Detalhes do Fornecedor</p>
+		              </div>
+		            </div>
+		            
+		            <div class="card-body" th:each="f : ${fornecedorobj}">
+		              <div class="row">
+		                <div class="col-md-2">
+		                  <div class="form-group">
+		                 	<img th:src="@{/imagemFornecedor/{idfornecedor}(idfornecedor=${f.id})}" 
+		                 	class="rounded-circle border-2 border-white" alt="" height="120px" width="120px">
+		                  </div>
+		                </div>
+		                
+		                <div class="col-md-5">
+		                  <div class="form-group" style="margin-left: 30px;">
+		                 	 <p>ID: <span th:text="${f.id}" ></span></p>
+		                 	 <p>Razão Social: <span th:text="${f.razaoSocial}" ></span></p>
+		                 	 <p>Nome Fantasia: <span th:text="${f.nomeFantasia}" ></span></p>
+		                 	 <p>CNPJ: <span th:text="${f.cnpj}" ></span></p>
+		                 	 <p>Inscrição Estadual: <span th:text="${f.inscricaoEstadual}" ></span></p>
+		                  </div>
+		                  
+		                </div>
+		          
+		                 <div class="col-md-5">
+		                  <div class="form-group" style="margin-left: 30px;">
+		                  	 <p>Rua: <span th:text="${f.rua}" ></span></p>
+		           			 <p>Bairro: <span th:text="${f.bairro}" ></span></p>
+		                 	 <p>Cidade: <span th:text="${f.cidade}" ></span></p>
+		                 	 <p>Estado: <span th:text="${f.uf}" ></span></p>
+		                 	 <p>CEP: <span th:text="${f.cep}" ></span></p>
+		                  </div>
+		                  
+		                </div>
+		                
+		              <hr class="horizontal dark"> 
+		              
+		              <!-- Cadastro de Telefones -->
+		              
+		              <p class="mb-0">Cadastro de Telefone</p>
+		             
+		               
+		               <hr class="horizontal dark"> 
+		               <p class="mb-0">Lista de Telefones</p>
+		               </br>
+		              
+		     <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+              
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Número</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tipo</th> 
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
+                    </tr>
+                  </thead>
+                  
+               
+                </table>
+              </div>
+            </div>
+		              
+		            </div>
+		         </div>
+		       </div>
+		    </div>    
+		   </div>    
+		   </div>
+    	
+    
+    
+		<!-- Fim da página -->       
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  
+</body>
+
+</html> 

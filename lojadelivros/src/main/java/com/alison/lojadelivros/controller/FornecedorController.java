@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -95,7 +97,36 @@ public class FornecedorController {
 		return modelAndView;
 	}
 	 
+	 
+	 @GetMapping("/removerfornecedor/{idfornecedor}")
+	 public ModelAndView remover(@PathVariable("idfornecedor") Long idfornecedor) {
+		
+		fornecedorRepository.deleteById(idfornecedor);
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/listfornecedor");
+		modelAndView.addObject("fornecedores", fornecedorRepository.findAll());
+		modelAndView.addObject("fornecedorobj", new Fornecedor());
+		return modelAndView;
+	}
 	
+	@PostMapping("**/pesquisafornecedor")
+	public ModelAndView pesquisar(@RequestParam("razaopesquisa") String razaopesquisa) {
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/listfornecedor");
+		modelAndView.addObject("fornecedores", fornecedorRepository.findFornecedorByName(razaopesquisa));
+		modelAndView.addObject("fornecedorobj", new Fornecedor());
+		return modelAndView;
+	}
+	 
+	@GetMapping("/telefonesfornecedor/{idfornecedor}")
+	public ModelAndView telefones(@PathVariable("idfornecedor") Long idfornecedor) {
+		
+		Fornecedor fornecedor = fornecedorRepository.findById(idfornecedor).get();
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/telefonesfornecedor");
+		modelAndView.addObject("fornecedorobj", fornecedor);
+		return modelAndView;
+	}
 	
 
 }
