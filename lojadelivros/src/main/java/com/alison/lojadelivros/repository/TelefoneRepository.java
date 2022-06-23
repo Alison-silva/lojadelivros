@@ -16,5 +16,9 @@ public interface TelefoneRepository extends JpaRepository<Telefone, Long> {
 	
 	@Query("select t from Telefone t where t.cliente.id = ?1")
 	public List<Telefone> getTelefones(Long clienteid);
+	
+	@Query("select t from Telefone t where t.fornecedor.id = ?1")
+	public List<Telefone> getTelefonesFornecedor(Long fornecedorid);
+	
 
 }

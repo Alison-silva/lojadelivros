@@ -74,6 +74,36 @@
 		              <!-- Cadastro de Telefones -->
 		              
 		              <p class="mb-0">Cadastro de Telefone</p>
+		              
+		               </br>
+		              	<br/>
+							<div th:each = "m : ${msg}">
+								<span th:text="${m}"></span>
+							</div>
+						<br/>
+		              </br>
+		              
+		              <form th:action="@{/addfonefornecedor/{fornecedorid}(fornecedorid=${fornecedorobj.id})}" method="post" id="formtelefoneforn">
+		               		<div class="row">
+		               			  <div class="col-md-5">
+					                  <div class="form-group">
+					                    <label for="numero">Número</label>
+					                    <input class="form-control" type="text" id="numero" name="numero">
+					                  </div>
+					                </div>
+					                <div class="col-md-5">
+					                  <div class="form-group">
+					                    <label for="tipo" class="form-control-label">Tipo</label>
+					                    <input class="form-control" type="text" id="tipo" name="tipo">
+					                  </div>
+					                </div>
+		               		</div>
+		               		
+		               		<button type="submit" class="btn btn-primary">Adicionar</button>
+		               		<button type="button" class="btn btn-secondary" onclick="document.getElementById('formtelefoneforn').reset();">Novo</button>
+		               		<a href="/listfornecedor"><button type="button"class="btn btn-success">Voltar</button></a> 
+		               		
+		               </form>
 		             
 		               
 		               <hr class="horizontal dark"> 
@@ -91,6 +121,21 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
                     </tr>
                   </thead>
+                  
+                  <tbody>
+                    <tr th:each="fone : ${telefones}">
+                    
+                    	<td th:text = "${fone.numero}"></td>
+                    
+       					<td th:text = "${fone.tipo}"></td>
+       					
+       				  	<td class="align-middle text-center">
+                       		<a onclick="return confirm('Deseja mesmo excluir?');"
+                       		   th:href="@{/removertelefonefornecedor/{idtelefone}(idtelefone=${fone.id})}">Remover</a>
+                        </td> 
+                      
+                    </tr>
+                  </tbody>
                   
                
                 </table>
