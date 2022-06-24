@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <div th:replace="base :: conf2"></div>
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div th:replace="navlateral :: navlateral"></div>
+  </aside>
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+   		<div th:replace="navbar :: navbar"></div>
+    <!-- End Navbar -->
+    <form action="salvarlivro" method="post"  enctype="multipart/form-data"  th:object="${livroobj}"  >
+   
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex align-items-center">
+                <p class="mb-0">Cadastro de Livros</p>
+              </div>
+              
+           		
+             
+              
+            </div>
+            
+           	            
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="id" class="form-control-label">ID</label>
+                    <input class="form-control" type="text" id="id" name="id" readonly="readonly"  th:field="*{id}" >
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="form-group">
+                    <label for="razaoSocial" class="form-control-label">Título</label>
+                    <input class="form-control" type="text" id="titulo"  name="titulo"  th:field="*{titulo}">
+                  </div>
+                </div>
+                
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nomeFantasia" class="form-control-label">Autor</label>
+                    <input class="form-control" type="text" id="autor"  name="autor" th:field="*{autor}"  >
+                  </div>
+                </div>
+                
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="inscricaoEstadual" class="form-control-label">ISBN</label>
+                    <input class="form-control" type="text" id="isbn"  name="isbn" th:field="*{isbn}" >
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="file" class="form-control-label">Capa</label>
+                    <input type="file" class="form-control" id="file" name="file">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="cnpj" class="form-control-label">Ano</label>
+                    <input class="form-control" type="text" id="ano" name="ano"  th:field="*{ano}">
+                  </div>
+                </div>
+                
+                 <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="cep" class="form-control-label">Página</label>
+                    <input class="form-control" name="pagina"  id="pagina" th:field="*{pagina}"> 
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="bairro" class="form-control-label">Preço</label>
+                    <input class="form-control" name="preco"   id="preco" th:field="*{preco}">
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="rua" class="form-control-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" name="descricao" rows="3" th:field="*{descricao}"></textarea>
+                  </div>
+                </div>
+                
+                 <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="fornecedor" class="form-control-label">Fornecedor</label>
+                   	<select class="form-select" id="fornecedor" name="fornecedor" th:field="*{fornecedor}">
+                  
+						<option th:each="f : ${fornecedores}" th:value="${f.id}" th:text="${f.razaoSocial}">
+						
+					</select>
+                  </div>
+                  </div>
+                
+           
+             
+                
+                
+               
+                
+              </div>
+           
+              <hr class="horizontal dark">
+            
+            
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                   	<button type="submit" class="btn btn-primary">Salvar</button>
+                   	
+                   	<button type="button" class="btn btn-secondary" onclick="document.getElementById('formlivro').reset();">Novo</button>
+                   	
+                   	<a href="/listlivro"><button type="button"class="btn btn-success">Voltar</button></a> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    	</div>
+    
+   
+    
+		<!-- Fim da página -->       
+    </div>
+   </form>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  
+</body>
+
+</html> 
