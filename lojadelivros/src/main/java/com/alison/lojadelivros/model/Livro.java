@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Livro implements Serializable {
@@ -21,8 +23,12 @@ public class Livro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull(message = "O título não pode ser nulo")
+	@NotEmpty(message = "O título não pode ser vazio")
 	private String titulo;
 
+	@NotNull(message = "O autor não pode ser nulo")
+	@NotEmpty(message = "O autor não pode ser vazio")
 	private String autor;
 
 	@Column(columnDefinition = "text")
@@ -34,6 +40,8 @@ public class Livro implements Serializable {
 
 	private String pagina;
 
+	@NotNull(message = "O preço não pode ser nulo")
+	@NotEmpty(message = "O preço não pode ser vazio")
 	private String preco;
 
 	@Lob

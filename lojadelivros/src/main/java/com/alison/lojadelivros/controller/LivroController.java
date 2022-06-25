@@ -3,16 +3,28 @@ package com.alison.lojadelivros.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +44,8 @@ public class LivroController {
 	@RequestMapping(method = RequestMethod.GET, value = "/listlivro")
 	public ModelAndView inicio() {
 		ModelAndView modelAndView = new ModelAndView("cadastro/listlivro");
-		modelAndView.addObject("livros", livroRepository.findAll());
+		modelAndView.addObject("livroobj", new Livro());
+		modelAndView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 5, Sort.by("titulo"))));
 		return modelAndView;
 	}
 
@@ -45,7 +58,22 @@ public class LivroController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "**/salvarlivro", consumes = { "multipart/form-data" })
-	public ModelAndView salvar(Livro livro, final MultipartFile file) throws IOException {
+	public ModelAndView salvar(@Valid Livro livro, BindingResult bindingResult, final MultipartFile file) throws IOException {
+		
+		if(bindingResult.hasErrors()) {
+			ModelAndView modelAndView = new ModelAndView("cadastro/cadastrolivro");
+			modelAndView.addObject("livroobj", livro);
+			modelAndView.addObject("fornecedores", fornecedorRepository.findAll());
+			
+			List<String> msg = new ArrayList<String>();
+			for(ObjectError objectError : bindingResult.getAllErrors()) {
+				msg.add(objectError.getDefaultMessage());
+			}
+			
+			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("fornecedores", fornecedorRepository.findAll());
+			return modelAndView;
+		}
 
 		if (file.getSize() > 0) {
 			livro.setImage(file.getBytes());
@@ -58,16 +86,30 @@ public class LivroController {
 
 		livroRepository.save(livro);
 		ModelAndView andView = new ModelAndView("cadastro/listlivro");
+		andView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 5, Sort.by("titulo"))));
 		andView.addObject("livroobj", new Livro());
-		andView.addObject("livros", livroRepository.findAll());
 		return andView;
 	}
+	
+	@GetMapping("/livrospag")
+	public ModelAndView carregaLivroPorPaginacao(@PageableDefault(size=5) Pageable pageable, 
+			ModelAndView model, @RequestParam("titulopesquisa") String titulopesquisa) {
+
+		Page<Livro> pageLivro = livroRepository.findLivroByNamePage(titulopesquisa, pageable);
+		model.addObject("livros", pageLivro);
+		model.addObject("livroobj", new Livro());
+		model.addObject("titulopesquisa", titulopesquisa);
+		model.setViewName("cadastro/listlivro");
+		
+		return model;
+	}
+	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/listalivros")
 	public ModelAndView livros() {
 
 		ModelAndView andView = new ModelAndView("cadastro/listlivros");
-		andView.addObject("livros", livroRepository.findAll());
+		andView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 5, Sort.by("titulo"))));
 		andView.addObject("livroobj", new Livro());
 		return andView;
 	}
@@ -99,9 +141,57 @@ public class LivroController {
 		livroRepository.deleteById(idlivro);
 
 		ModelAndView modelAndView = new ModelAndView("cadastro/listlivro");
-		modelAndView.addObject("livros", livroRepository.findAll());
+		modelAndView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 5, Sort.by("titulo"))));
 		modelAndView.addObject("livroobj", new Livro());
+		return modelAndView;
+	}
+	
+	@PostMapping("**/pesquisarlivro")
+	public ModelAndView pesquisar(@RequestParam("titulopesquisa") String titulopesquisa,
+			@PageableDefault(size = 5, sort = {"titulo"}) Pageable pageable) {
+		
+		Page<Livro> livros = null;
+		
+		livros = livroRepository.findLivroByNamePage(titulopesquisa, pageable);
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/listlivro");
+		modelAndView.addObject("livros", livros);
+		modelAndView.addObject("livroobj", new Livro());
+		modelAndView.addObject("titulopesquisa", titulopesquisa);
+		
+		
 		return modelAndView;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

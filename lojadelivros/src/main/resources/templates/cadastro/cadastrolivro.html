@@ -29,7 +29,11 @@
                 <p class="mb-0">Cadastro de Livros</p>
               </div>
               
-           		
+           		<br/>
+					<div th:each = "m : ${msg}">
+						<span th:text="${m}"></span>
+					</div>
+				<br/>
              
               
             </div>
@@ -87,7 +91,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="bairro" class="form-control-label">Preço</label>
-                    <input class="form-control" name="preco"   id="preco" th:field="*{preco}">
+                    <input class="form-control" name="preco"   id="preco" th:field="*{preco}" oninput="moeda(this)">
                   </div>
                 </div>
                 
@@ -149,6 +153,17 @@
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script type="text/javascript">
+  
+  function moeda(z){
+	  v = z.value;
+	  v=v.replace(/\D/g,"") // permite digitar apenas numero
+	  v=v.replace(/(\d{1})(\d{1,2})$/,"$1,$2") // coloca virgula antes dos ultimos 2 digitos
+	  z.value = v;
+	  }
+  
+  
+  </script>
   
 </body>
 
