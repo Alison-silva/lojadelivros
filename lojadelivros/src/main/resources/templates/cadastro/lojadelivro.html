@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <div th:replace="base :: conf2"></div>
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  
+  <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div th:replace="navlateral :: navlateral"></div>
+  </aside>
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+   		<div th:replace="navbar :: navbar"></div>
+    <!-- End Navbar -->
+       	<div class="container-fluid py-3">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Loja On-Line de Livros</h6>
+              
+              <a href="#">Itens no Carrinho</a>
+              
+              </br>
+              </br>
+              
+        <div class="container">
+		  <div class="row">
+		    <div class="col" th:each="livro : ${livros.content}">
+       		 <div class="card" style="width: 15rem;">
+       		 	</br>
+				   <img th:if="${livro.image != null}" th:src="@{/imagemloja/{idlivroloja}(idlivroloja=${livro.id})}" class="img-thumbnail mx-auto"  height="130px" width="130px">
+                   <img th:if="${livro.image == null}" class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
+				  <div class="card-body">
+				  	<p class="card-text" th:text = "${livro.titulo}"></p>
+				    <a class="card-text" th:href="@{/detalheslivro/{idlivro}(idlivro=${livro.id})}" >VER DETALHES</a>
+				  
+				    </br>
+				    <p>Valor: <span th:text = "${livro.preco}"></span></p>
+				    
+				    <a href="#" class="btn btn-primary">Adicionar</a>
+				  </div>
+				</div>
+				
+				
+				
+             </div>
+			   
+		  </div>
+		</div>
+		
+		 <div class="row" style="margin-top: 30px;">
+					<center>
+						<div th:if="${livros != null}">
+					
+							<span th:if="${livros.hasPrevious()}">
+								<a th:href="@{/livropag(page=${livros.number-1}, size=${livros.size})}">Anterior</a>
+							</span>
+						
+							<th:block th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
+								<a th:href="@{/livropag(page=${i}, size=${livros.size})}">[[ ${i} + 1 ]]</a>
+							</th:block>
+							
+							<span th:if="${livros.hasNext()}">
+								<a th:href="@{/livropag(page=${livros.number+1}, size=${livros.size})}">Próximo</a>
+							</span>
+			
+						</div>
+					</center>
+				</div>
+        
+              
+         
+          
+          
+             
+              
+            </div>
+        
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+               
+                
+             
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    	
+    
+    
+		<!-- Fim da página -->       
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  
+</body>
+
+</html> 
