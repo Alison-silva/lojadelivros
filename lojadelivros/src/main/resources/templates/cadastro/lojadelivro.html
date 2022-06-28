@@ -29,10 +29,11 @@
               
               </br>
               </br>
-              
+            
         <div class="container">
 		  <div class="row">
-		    <div class="col" th:each="livro : ${livros.content}">
+		  
+		    <div class="col"  th:each="livro : ${livros.content}">
        		 <div class="card" style="width: 15rem;">
        		 	</br>
 				   <img th:if="${livro.image != null}" th:src="@{/imagemloja/{idlivroloja}(idlivroloja=${livro.id})}" class="img-thumbnail mx-auto"  height="130px" width="130px">
@@ -44,14 +45,11 @@
 				    </br>
 				    <p>Valor: <span th:text = "${livro.preco}"></span></p>
 				    
-				    <a href="#" class="btn btn-primary">Adicionar</a>
+				    <a th:href="@{/addcarrinho/{idlivro}(idlivro=${livro.id})}" class="btn btn-primary">Adicionar</a>
 				  </div>
 				</div>
-				
-				
-				
              </div>
-			   
+		
 		  </div>
 		</div>
 		

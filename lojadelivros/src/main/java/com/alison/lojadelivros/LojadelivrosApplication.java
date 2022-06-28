@@ -38,11 +38,11 @@ public class LojadelivrosApplication extends WebMvcConfigurerAdapter implements 
 	@Override
 	  public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	 registry.addResourceHandler("/webjars/**", "/resources/**", "/static/**", "/assets/**", "/img/**", "/css/**", "/js/**",
-					"classpath:/static/", "classpath:/resources/")
+					"classpath:/static/", "classpath:/resources/", "/alterarQuantidade/**")
 			.addResourceLocations("/webjars/", "/resources/",
 							"classpath:/static/**", "classpath:/static/img/**", "classpath:/static/", "classpath:/static/assets/",
 							"classpath:/resources/", "classpath:/static/css/", "classpath:/static/js/", "/resources/**",
-							"/WEB-INF/classes/static/**");
+							"/WEB-INF/classes/static/**", "/alterarQuantidade/**");
 	}
 
 }

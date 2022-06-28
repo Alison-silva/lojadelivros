@@ -40,9 +40,9 @@ public class Livro implements Serializable {
 
 	private String pagina;
 
-	@NotNull(message = "O preço não pode ser nulo")
-	@NotEmpty(message = "O preço não pode ser vazio")
-	private String preco;
+	// @NotNull(message = "O preço não pode ser nulo")
+	// @NotEmpty(message = "O preço não pode ser vazio")
+	private Double preco;
 
 	@Lob
 	private byte[] image;
@@ -122,11 +122,11 @@ public class Livro implements Serializable {
 		this.pagina = pagina;
 	}
 
-	public String getPreco() {
+	public Double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(String preco) {
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 
