@@ -19,21 +19,48 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alison.lojadelivros.model.Cliente;
+import com.alison.lojadelivros.model.Compra;
 import com.alison.lojadelivros.model.ItensCompra;
 import com.alison.lojadelivros.model.Livro;
+import com.alison.lojadelivros.repository.ClienteRepository;
+import com.alison.lojadelivros.repository.CompraRepository;
+import com.alison.lojadelivros.repository.ItensCompraRepository;
 import com.alison.lojadelivros.repository.LivroRepository;
 
 @Controller
 public class LojaController {
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	private List<ItensCompra> itensCompra = new ArrayList<ItensCompra>();
+	
+	private Compra compra = new Compra();
+	
 
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	@Autowired
+	private ItensCompraRepository itensCompraRepository;
+	
+	@Autowired
+	private CompraRepository compraRepository;
+	
+	private void calcularTotal() {
+		compra.setValorTotal(0.);
+		for(ItensCompra it: itensCompra) {
+			compra.setValorTotal(compra.getValorTotal() + it.getValorTotal());
+		}
+	}
+	
+	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/lojadelivro")
 	public ModelAndView inicio() {
@@ -83,37 +110,59 @@ public class LojaController {
 
 	@GetMapping("/carrinho")
 	public ModelAndView chamarCarrinho() {
-
 		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+		calcularTotal();
+		modelAndView.addObject("compra", compra);
 		modelAndView.addObject("listaitens", itensCompra);
+		modelAndView.addObject("clientes", clienteRepository.findAll());
 		return modelAndView;
 
 	}
 	
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
-	public ModelAndView alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
-		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
+	//	ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
 		
 		for(ItensCompra it : itensCompra) {
 			if(it.getLivro().getId().equals(id)) {
 				if(acao.equals(1)) {
 					it.setQuantidade(it.getQuantidade() + 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				}else if(acao == 0) {
 					it.setQuantidade(it.getQuantidade() - 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				}
 				break;
 			}
 		}
 		
+		//modelAndView.addObject("listaitens", itensCompra);
+		return "redirect:/carrinho";
+
+	}
+	
+	@GetMapping("/removerProduto/{id}")
+	public String removerProdutoCarrinho(@PathVariable Long id) {
+	//	ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
 		
-		modelAndView.addObject("listaitens", itensCompra);
-		return modelAndView;
+		for(ItensCompra it : itensCompra) {
+			if(it.getLivro().getId().equals(id)) {
+				itensCompra.remove(it);
+				break;
+			}
+		}
+		
+		
+		//modelAndView.addObject("listaitens", itensCompra);
+		return "redirect:/carrinho";
 
 	}
 	
 	@GetMapping("/addcarrinho/{idlivro}")
-	public ModelAndView addcarrinho(@PathVariable Long idlivro) {
-		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+	public String addcarrinho(@PathVariable Long idlivro) {
+		//ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
 		
 		Optional<Livro> li = livroRepository.findById(idlivro);
 		Livro livro = li.get();
@@ -122,6 +171,8 @@ public class LojaController {
 		for(ItensCompra it : itensCompra) {
 			if(it.getLivro().getId().equals(livro.getId())) {
 				it.setQuantidade(it.getQuantidade() + 1);
+				it.setValorTotal(0.);
+				it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				controle = 1;
 				break;
 			}
@@ -132,16 +183,35 @@ public class LojaController {
 		item.setLivro(livro);
 		item.setValorUnitario(livro.getPreco());
 		item.setQuantidade(item.getQuantidade() + 1);
-		item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
+		item.setValorTotal(item.getValorTotal() + (item.getQuantidade() * item.getValorUnitario()));
 		itensCompra.add(item);
 		}
 		
-		modelAndView.addObject("listaitens", itensCompra);
+		//modelAndView.addObject("listaitens", itensCompra);
 		
-		return modelAndView;
+		return "redirect:/carrinho";
 
 	}
+	
+	@PostMapping("/finalizarCompra")
+	public ModelAndView finalizarCompra(Cliente cliente) {
+		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
+		
+		compra.setCliente(cliente);
+		compraRepository.saveAndFlush(compra);
+		
+		for(ItensCompra c: itensCompra) {
+			c.setCompra(compra);
+			modelAndView.addObject("itempedido", c);
+			itensCompraRepository.saveAndFlush(c);
+		}
+		
+		itensCompra = new ArrayList<>();
+		compra = new Compra();
+		return modelAndView;
+	}
 
+	
 }
 
 

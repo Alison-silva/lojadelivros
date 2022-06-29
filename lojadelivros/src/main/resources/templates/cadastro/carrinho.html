@@ -26,12 +26,14 @@
             <div class="card-header pb-0">
               <h6>Carrinho de Compras</h6>
              
-              <a href="/lojadelivro"><button type="button"class="btn btn-success">Adicionar +</button></a> 
-              <button type="submit" class="btn btn-primary">Finalizar Compra</button>
-            
+              
               
             </div>
+        <form action="finalizarCompra" method="post">
         
+        <a href="/lojadelivro"><button type="button"class="btn btn-success">Adicionar +</button></a> 
+              <button type="submit" class="btn btn-primary">Finalizar Compra</button>
+            
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
@@ -83,16 +85,43 @@
                       </td>
                       
                       <td class="align-middle text-center">
-                       remover
+                       <a th:href="@{/removerProduto/{id}(id=${item.livro.id})}">Remover</a> 
                       </td>
                       
+               
+                      
                     </tr>
+                    
+                    <tr>
+                    	<td></td>
+                    	<td></td>
+                    	<td></td>
+                    	<td>Valor Total</td>
+                    	<td><span th:text="${compra.valorTotal}" ></span></td>
+                    <tr>
+                    
                   </tbody>
                 </table>
                 
-              
+                  <div class="col-md-7">
+                  <div class="form-group">
+                    <label for="cliente" class="form-control-label">Cliente</label>
+                   	<select class="form-select" id="cliente" name="cliente" th:field="*{compra.cliente}">
+                  
+						<option th:each="f : ${clientes}" th:value="${f.id}" th:text="${f.nome}">
+						
+					</select>
+                  </div>
+                  </div>
                 
               </div>
+            </div>
+            
+          </form>
+                
+                
+         
+              
             </div>
           </div>
         </div>

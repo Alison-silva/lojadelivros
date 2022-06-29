@@ -26,9 +26,9 @@ public class ItensCompra implements Serializable {
 
 	private Integer quantidade;
 
-	private Double valorUnitario;
+	private Double valorUnitario = 0.;
 
-	private Double valorTotal;
+	private Double valorTotal = 0.;
 
 	public Double getValorTotal() {
 		return valorTotal;
