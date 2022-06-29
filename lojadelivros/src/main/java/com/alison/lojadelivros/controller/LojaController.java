@@ -53,6 +53,9 @@ public class LojaController {
 	@Autowired
 	private CompraRepository compraRepository;
 	
+	@Autowired
+	private ReportUtil reportUtil;
+	
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
 		for(ItensCompra it: itensCompra) {
@@ -211,6 +214,8 @@ public class LojaController {
 		return modelAndView;
 	}
 
+	
+	
 	
 }
 
