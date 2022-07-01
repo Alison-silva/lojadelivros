@@ -45,7 +45,7 @@
                   </thead>
                   
                   <tbody>
-                    <tr th:each="pedido : ${pedidos}">
+                    <tr th:each="pedido : ${pedidos.content}">
                     
                     <td th:text = "${pedido.id}">
                     	
@@ -61,7 +61,7 @@
                       </td>
                       
                       <td class="align-middle text-center">
-                        Excluir
+                         <a onclick="return confirm('Deseja mesmo excluir?');" th:href="@{/removerpedido/{id}(id=${pedido.id})}">Remover</a>
                       </td>
                       
                       <td class="align-middle text-center">
@@ -71,6 +71,26 @@
                     </tr>
                   </tbody>
                 </table>
+                
+                <div class="row" style="margin-top: 30px;">
+					<center>
+						<div th:if="${pedidos != null}">
+					
+							<span th:if="${pedidos.hasPrevious()}">
+								<a th:href="@{/pedidopag(page=${pedidos.number-1}, size=${pedidos.size})}">Anterior</a>
+							</span>
+						
+							<th:block th:each="i: ${#numbers.sequence(0, pedidos.totalPages - 1)}">
+								<a th:href="@{/pedidopag(page=${i}, size=${pedidos.size})}">[[ ${i} + 1 ]]</a>
+							</th:block>
+							
+							<span th:if="${pedidos.hasNext()}">
+								<a th:href="@{/pedidopag(page=${pedidos.number+1}, size=${pedidos.size})}">Próximo</a>
+							</span>
+			
+						</div>
+					</center>
+				</div>
                 
               </div>
             </div>

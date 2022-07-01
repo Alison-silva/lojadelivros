@@ -2,13 +2,16 @@ package com.alison.lojadelivros.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,7 +30,18 @@ public class Compra implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCompra = new Date();
 
-	private Double valorTotal =0.;
+	private Double valorTotal = 0.;
+
+	@OneToMany(mappedBy = "compra", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<ItensCompra> itensCompras;
+
+	public List<ItensCompra> getItensCompras() {
+		return itensCompras;
+	}
+
+	public void setItensCompras(List<ItensCompra> itensCompras) {
+		this.itensCompras = itensCompras;
+	}
 
 	public Long getId() {
 		return id;

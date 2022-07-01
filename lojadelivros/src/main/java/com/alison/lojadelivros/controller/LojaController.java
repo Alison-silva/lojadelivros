@@ -74,7 +74,7 @@ public class LojaController {
 	}
 
 	@GetMapping("/livropag")
-	public ModelAndView livropag(@PageableDefault(size = 5) Pageable pageable, ModelAndView model) {
+	public ModelAndView livropag(@PageableDefault(size = 8) Pageable pageable, ModelAndView model) {
 
 		Page<Livro> pageLivro = livroRepository.findAll(pageable);
 		model.addObject("livros", pageLivro);
