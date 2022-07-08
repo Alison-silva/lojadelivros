@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Livro implements Serializable {
 
@@ -45,7 +47,16 @@ public class Livro implements Serializable {
 	private Double preco;
 
 	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
 	private byte[] image;
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Fornecedor fornecedor;
@@ -56,14 +67,6 @@ public class Livro implements Serializable {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 	public Long getId() {

@@ -40,7 +40,6 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Cliente</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">R$</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Imprimir</th>
                     </tr>
                   </thead>
                   
@@ -51,8 +50,8 @@
                     	
                     </td>
                     
-                    <td >
-                    	<span th:text = "${pedido.cliente.nome}"></span>
+                    <td>
+                    	 <a th:href="@{/detalhespedido/{idpedido}(idpedido=${pedido.id})}"><span th:text = "${pedido.cliente.nome}"></span></a>
                     </td>
                     
                
@@ -63,10 +62,7 @@
                       <td class="align-middle text-center">
                          <a onclick="return confirm('Deseja mesmo excluir?');" th:href="@{/removerpedido/{id}(id=${pedido.id})}">Remover</a>
                       </td>
-                      
-                      <td class="align-middle text-center">
-                       	PDF
-                      </td>
+                
                       
                     </tr>
                   </tbody>

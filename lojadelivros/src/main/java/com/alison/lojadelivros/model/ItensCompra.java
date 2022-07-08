@@ -1,14 +1,13 @@
 package com.alison.lojadelivros.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -65,11 +64,10 @@ public class ItensCompra implements Serializable {
 	}
 
 	public Integer getQuantidade() {
-		if(quantidade == null) {
+		if (quantidade == null) {
 			quantidade = 0;
 		}
-		
-		
+
 		return quantidade;
 	}
 
@@ -85,21 +83,5 @@ public class ItensCompra implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ItensCompra other = (ItensCompra) obj;
-		return Objects.equals(id, other.id);
-	}
 
 }

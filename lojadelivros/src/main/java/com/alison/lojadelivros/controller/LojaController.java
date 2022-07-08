@@ -53,8 +53,6 @@ public class LojaController {
 	@Autowired
 	private CompraRepository compraRepository;
 	
-	@Autowired
-	private ReportUtil reportUtil;
 	
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
@@ -146,12 +144,12 @@ public class LojaController {
 
 	}
 	
-	@GetMapping("/removerProduto/{id}")
-	public String removerProdutoCarrinho(@PathVariable Long id) {
+	@GetMapping("/removerProduto/{idlivro}")
+	public String removerProdutoCarrinho(@PathVariable Long idlivro) {
 	//	ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
 		
 		for(ItensCompra it : itensCompra) {
-			if(it.getLivro().getId().equals(id)) {
+			if(it.getLivro().getId() == idlivro) { // it.getLivro().getId().equals(idlivro)
 				itensCompra.remove(it);
 				break;
 			}

@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Fornecedor implements Serializable {
 
@@ -40,7 +42,16 @@ public class Fornecedor implements Serializable {
 	private String inscricaoEstadual;
 
 	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
 	private byte[] imagem;
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
 
 	private String cep;
 
@@ -101,14 +112,6 @@ public class Fornecedor implements Serializable {
 
 	public void setInscricaoEstadual(String inscricaoEstadual) {
 		this.inscricaoEstadual = inscricaoEstadual;
-	}
-
-	public byte[] getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
 	}
 
 	public String getCep() {

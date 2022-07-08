@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 public class Cliente implements Serializable {
 
@@ -26,7 +28,7 @@ public class Cliente implements Serializable {
 	@NotNull(message = "O nome não pode ser nulo")
 	@NotEmpty(message = "O nome não pode ser vazio")
 	private String nome;
-	
+
 	@NotNull(message = "O cpf não pode ser nulo")
 	@NotEmpty(message = "O cpf não pode ser vazio")
 	private String cpf;
@@ -85,15 +87,8 @@ public class Cliente implements Serializable {
 	private List<Telefone> telefones;
 
 	@Lob
+	@Type(type = "org.hibernate.type.ImageType")
 	private byte[] image;
-
-	public List<Telefone> getTelefones() {
-		return telefones;
-	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
 
 	public byte[] getImage() {
 		return image;
@@ -101,6 +96,14 @@ public class Cliente implements Serializable {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public List<Telefone> getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 
 	public Long getId() {
