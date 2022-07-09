@@ -126,26 +126,28 @@ public class LojaController {
 	
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
 	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
-	//	ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-		
-		for(ItensCompra it : itensCompra) {
-			if(it.getLivro().getId().equals(id)) {
-				if(acao.equals(1)) {
-					it.setQuantidade(it.getQuantidade() + 1);
-					it.setValorTotal(0.);
-					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
-				}else if(acao == 0) {
-					it.setQuantidade(it.getQuantidade() - 1);
-					it.setValorTotal(0.);
-					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
+		//ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+			
+			
+			for(ItensCompra it : itensCompra) {
+				if(it.getLivro().getId().equals(id)) {
+					if(acao.equals(1)) {
+						it.setQuantidade(it.getQuantidade() + 1);
+						it.setValorTotal(0.);
+						it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
+					}else if(acao == 0) {
+						it.setQuantidade(it.getQuantidade() - 1);
+						it.setValorTotal(0.);
+						it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
+					}
+					break;
 				}
-				break;
 			}
-		}
+			
 		
 		//modelAndView.addObject("listaitens", itensCompra);
 		return "redirect:/carrinho";
-
+		
 	}
 	
 	@GetMapping("/removerProduto/{idlivro}")
@@ -202,13 +204,11 @@ public class LojaController {
 	public ModelAndView finalizarCompra(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
 		
-		Livro livro = new Livro();
 		compra.setCliente(cliente);
 		compraRepository.saveAndFlush(compra);
 		
 		for(ItensCompra c: itensCompra) {
 			c.setCompra(compra);
-			//livroRepository.findExcluirEstoque(c.getLivro().getId());
 			lojaService.alterarQuantidade(c.getLivro().getId(), c.getQuantidade());
 			modelAndView.addObject("itempedido", c);
 			itensCompraRepository.saveAndFlush(c);

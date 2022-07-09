@@ -26,6 +26,11 @@
             <div class="card-header pb-0">
               <h6>Carrinho de Compras</h6>
              
+             	<br/>
+					<div th:each = "m : ${msg}">
+						<span th:text="${m}"></span>
+					</div>
+				<br/>
               
               
             </div>
@@ -71,11 +76,20 @@
                       
                        <td> <span th:text="${item.quantidade}"></span>
                        
-                       		<a class="btn btn-success"
+                       		<a class="btn btn-success" th:if="${item.quantidade < item.livro.estoque}" 
                        		 th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.livro.id}, acao=${1})}">+</a> 
+                       		 
+                       		
+                       		 <a class="btn btn-success" th:if="${item.quantidade > item.livro.estoque}"  
+                       		 onclick="return confirm('A quantidade excedeu o estoque');"
+                       		 th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.livro.id}, acao=${1})}">+</a> 
+                       		 
+                       		 
                        
-                       		<a class="btn btn-success" 
+                       		<a class="btn btn-success"  th:if="${item.quantidade != 1}"
                        		 th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.livro.id}, acao=${0})}">-</a> 
+                       		 
+                       		 <a class="btn btn-success"  th:if="${item.quantidade == 0}" onclick="return confirm('A quantidade não pode ser menor 0');">-</a> 
                        		
                       </td>
                     
