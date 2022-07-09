@@ -42,6 +42,8 @@ public class Livro implements Serializable {
 
 	private String pagina;
 
+	private Integer estoque = 0;
+
 	// @NotNull(message = "O preço não pode ser nulo")
 	// @NotEmpty(message = "O preço não pode ser vazio")
 	private Double preco;
@@ -131,6 +133,14 @@ public class Livro implements Serializable {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	public Integer getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Integer estoque) {
+		this.estoque = estoque;
 	}
 
 	@Override

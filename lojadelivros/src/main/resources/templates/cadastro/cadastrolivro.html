@@ -81,17 +81,24 @@
                   </div>
                 </div>
                 
-                 <div class="col-md-6">
+                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="cep" class="form-control-label">Página</label>
                     <input class="form-control" name="pagina"  id="pagina" th:field="*{pagina}"> 
                   </div>
                 </div>
                 
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <div class="form-group">
                     <label for="bairro" class="form-control-label">Preço</label>
                     <input class="form-control" name="preco"   id="preco" th:field="*{preco}" oninput="moeda(this)">
+                  </div>
+                </div>
+                
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="bairro" class="form-control-label">Estoque</label>
+                    <input class="form-control" name="estoque"   id="estoque" th:field="*{estoque}" type="number">
                   </div>
                 </div>
                 
