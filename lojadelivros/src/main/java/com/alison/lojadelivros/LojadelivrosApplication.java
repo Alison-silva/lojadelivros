@@ -27,6 +27,8 @@ public class LojadelivrosApplication extends WebMvcConfigurerAdapter implements 
 	public static void main(String[] args) {
 		SpringApplication.run(LojadelivrosApplication.class, args);
 		
+		//teste git
+		
 	}
 	
 	@Override
