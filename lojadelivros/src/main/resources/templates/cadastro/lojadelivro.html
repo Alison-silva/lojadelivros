@@ -41,11 +41,11 @@
 				  <div class="card-body">
 				  	<p class="card-text" th:text = "${livro.titulo}"></p>
 				    <a class="card-text" th:href="@{/detalheslivro/{idlivro}(idlivro=${livro.id})}" >VER DETALHES</a>
-				  
 				    </br>
 				    <p>Valor: <span th:text = "${livro.preco}"></span></p>
 				    
-				    <a th:href="@{/addcarrinho/{idlivro}(idlivro=${livro.id})}" class="btn btn-primary">Adicionar</a>
+				    <a th:if="${livro.estoque != 0}"  th:href="@{/addcarrinho/{idlivro}(idlivro=${livro.id})}" class="btn btn-primary">Adicionar</a>
+				    <a th:if="${livro.estoque == 0}" onclick="return confirm('Produto está em falta');"  class="btn btn-primary">Adicionar</a>
 				  </div>
 				</div>
              </div>

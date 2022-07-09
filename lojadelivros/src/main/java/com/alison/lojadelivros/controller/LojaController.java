@@ -32,6 +32,7 @@ import com.alison.lojadelivros.repository.ClienteRepository;
 import com.alison.lojadelivros.repository.CompraRepository;
 import com.alison.lojadelivros.repository.ItensCompraRepository;
 import com.alison.lojadelivros.repository.LivroRepository;
+import com.alison.lojadelivros.service.LojaService;
 
 @Controller
 public class LojaController {
@@ -52,6 +53,9 @@ public class LojaController {
 	
 	@Autowired
 	private CompraRepository compraRepository;
+	
+	@Autowired
+	private LojaService lojaService;
 	
 	
 	private void calcularTotal() {
@@ -198,11 +202,14 @@ public class LojaController {
 	public ModelAndView finalizarCompra(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
 		
+		Livro livro = new Livro();
 		compra.setCliente(cliente);
 		compraRepository.saveAndFlush(compra);
 		
 		for(ItensCompra c: itensCompra) {
 			c.setCompra(compra);
+			//livroRepository.findExcluirEstoque(c.getLivro().getId());
+			lojaService.alterarQuantidade(c.getLivro().getId(), c.getQuantidade());
 			modelAndView.addObject("itempedido", c);
 			itensCompraRepository.saveAndFlush(c);
 		}

@@ -74,11 +74,12 @@
                        		<a class="btn btn-success"
                        		 th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.livro.id}, acao=${1})}">+</a> 
                        
-                       		<a class="btn btn-success"
+                       		<a class="btn btn-success" 
                        		 th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.livro.id}, acao=${0})}">-</a> 
                        		
-                     
                       </td>
+                    
+                      
                       
                       <td class="align-middle text-center" th:text = "${item.valorTotal}">
                         
