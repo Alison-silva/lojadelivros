@@ -60,7 +60,7 @@ public class FornecedorController {
 	}
 	
 	@GetMapping("/fornecedorpag")
-	public ModelAndView carregaFornecedorPorPaginacao(@PageableDefault(size=5) Pageable pageable, 
+	public ModelAndView carregaFornecedorPorPaginacao(@PageableDefault(size=5, sort = {"razaoSocial"}) Pageable pageable, 
 			ModelAndView model, @RequestParam("razaopesquisa") String razaopesquisa) {
 		
 		Page<Fornecedor> pageFornecedor = fornecedorRepository.findFornecedorByNamePage(razaopesquisa, pageable);

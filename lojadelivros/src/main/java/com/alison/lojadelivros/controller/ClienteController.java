@@ -59,7 +59,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/clientespag")
-	public ModelAndView carregaClientePorPaginacao(@PageableDefault(size=5) Pageable pageable, 
+	public ModelAndView carregaClientePorPaginacao(@PageableDefault(size=5, sort = {"nome"}) Pageable pageable, 
 			ModelAndView model, @RequestParam("nomepesquisa") String nomepesquisa) {
 		
 		Page<Cliente> pageCliente = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);

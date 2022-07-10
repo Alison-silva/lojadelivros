@@ -93,7 +93,7 @@ public class LivroController {
 	}
 
 	@GetMapping("/livrospag")
-	public ModelAndView carregaLivroPorPaginacao(@PageableDefault(size = 5) Pageable pageable, ModelAndView model,
+	public ModelAndView carregaLivroPorPaginacao(@PageableDefault(size = 5, sort = { "titulo" }) Pageable pageable, ModelAndView model,
 			@RequestParam("titulopesquisa") String titulopesquisa) {
 
 		Page<Livro> pageLivro = livroRepository.findLivroByNamePage(titulopesquisa, pageable);
