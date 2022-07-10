@@ -58,18 +58,19 @@ public class LivroController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "**/salvarlivro", consumes = { "multipart/form-data" })
-	public ModelAndView salvar(@Valid Livro livro, BindingResult bindingResult, final MultipartFile file) throws IOException {
-		
-		if(bindingResult.hasErrors()) {
+	public ModelAndView salvar(@Valid Livro livro, BindingResult bindingResult, final MultipartFile file)
+			throws IOException {
+
+		if (bindingResult.hasErrors()) {
 			ModelAndView modelAndView = new ModelAndView("cadastro/cadastrolivro");
 			modelAndView.addObject("livroobj", livro);
 			modelAndView.addObject("fornecedores", fornecedorRepository.findAll());
-			
+
 			List<String> msg = new ArrayList<String>();
-			for(ObjectError objectError : bindingResult.getAllErrors()) {
+			for (ObjectError objectError : bindingResult.getAllErrors()) {
 				msg.add(objectError.getDefaultMessage());
 			}
-			
+
 			modelAndView.addObject("msg", msg);
 			modelAndView.addObject("fornecedores", fornecedorRepository.findAll());
 			return modelAndView;
@@ -90,20 +91,19 @@ public class LivroController {
 		andView.addObject("livroobj", new Livro());
 		return andView;
 	}
-	
+
 	@GetMapping("/livrospag")
-	public ModelAndView carregaLivroPorPaginacao(@PageableDefault(size=5) Pageable pageable, 
-			ModelAndView model, @RequestParam("titulopesquisa") String titulopesquisa) {
+	public ModelAndView carregaLivroPorPaginacao(@PageableDefault(size = 5) Pageable pageable, ModelAndView model,
+			@RequestParam("titulopesquisa") String titulopesquisa) {
 
 		Page<Livro> pageLivro = livroRepository.findLivroByNamePage(titulopesquisa, pageable);
 		model.addObject("livros", pageLivro);
 		model.addObject("livroobj", new Livro());
 		model.addObject("titulopesquisa", titulopesquisa);
 		model.setViewName("cadastro/listlivro");
-		
+
 		return model;
 	}
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/listalivros")
 	public ModelAndView livros() {
@@ -145,53 +145,21 @@ public class LivroController {
 		modelAndView.addObject("livroobj", new Livro());
 		return modelAndView;
 	}
-	
+
 	@PostMapping("**/pesquisarlivro")
 	public ModelAndView pesquisar(@RequestParam("titulopesquisa") String titulopesquisa,
-			@PageableDefault(size = 5, sort = {"titulo"}) Pageable pageable) {
-		
+			@PageableDefault(size = 5, sort = { "titulo" }) Pageable pageable) {
+
 		Page<Livro> livros = null;
-		
+
 		livros = livroRepository.findLivroByNamePage(titulopesquisa, pageable);
-		
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/listlivro");
 		modelAndView.addObject("livros", livros);
 		modelAndView.addObject("livroobj", new Livro());
 		modelAndView.addObject("titulopesquisa", titulopesquisa);
-		
-		
+
 		return modelAndView;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

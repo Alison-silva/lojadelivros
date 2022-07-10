@@ -12,7 +12,7 @@ public class LojaService {
 	
 	public void alterarQuantidade(Long idLoja, Integer quantidade) {
 		String sql = "begin; UPDATE Livro SET estoque = estoque -"+quantidade+" where id = " + idLoja +"; commit;";
-		jdbcTemplate.execute(sql);;
+		jdbcTemplate.execute(sql);
 	}
 	
 	

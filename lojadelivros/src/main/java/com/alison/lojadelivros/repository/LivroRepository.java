@@ -21,6 +21,7 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
 	@Query("select c from Livro c where c.titulo like %?1% ")
 	List<Livro> findLivroByName(String titulo);
 	
+	
 	default Page<Livro> findLivroByNamePage(String titulo, Pageable pageable){
 		
 		Livro livro = new Livro();
@@ -28,6 +29,21 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
 		
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
 			.withMatcher("titulo", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+		
+		Example<Livro> example = Example.of(livro, exampleMatcher);
+		
+		Page<Livro> livros = findAll(example, pageable);
+		
+		return livros;
+	}
+	
+	default Page<Livro> findLivroByGeneroPage(String genero, Pageable pageable){
+		
+		Livro livro = new Livro();
+		livro.setGenero(genero);
+		
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+			.withMatcher("genero", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 		
 		Example<Livro> example = Example.of(livro, exampleMatcher);
 		

@@ -74,12 +74,25 @@
                     <input type="file" class="form-control" id="file" name="file">
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-2">
                   <div class="form-group">
                     <label for="cnpj" class="form-control-label">Ano</label>
                     <input class="form-control" type="text" id="ano" name="ano"  th:field="*{ano}">
                   </div>
                 </div>
+                
+                <div class="col-md-4">
+	                <div class="form-group">
+	                   <label for="genero" class="active">Gênero</label>
+							<select class="form-control" name="genero" id="genero" th:field="*{genero}">
+								<option value="" disabled selected>--[Selecione]--</option>
+								<option value="FANTASIA" th:text="Fantasia"/>
+								<option value="CIENTIFICO" th:text="Científico"/>
+								<option value="HORROR" th:text="Horror"/>
+								<option value="ROMANCE" th:text="Romance"/>
+							</select>
+	                  </div>
+                 </div>
                 
                  <div class="col-md-4">
                   <div class="form-group">

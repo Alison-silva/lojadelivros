@@ -25,15 +25,38 @@
             <div class="card-header pb-0">
               <h6>Loja On-Line de Livros</h6>
               
-              <a href="#">Itens no Carrinho</a>
+               <form class="form-inline" action="pesquisarlivro2" method="post">
               
-              </br>
-              </br>
-            
+				  <div class="form-group mb-2">
+				   <label class="form-control-label" >Pesquisar por Gênero</label>
+				  </div>
+				  
+				  <div class="col-md-4">
+	                <div class="form-group">
+	                   <label for="generopesquisa" class="active">Gênero</label>
+							<select class="form-control" name="generopesquisa" id="generopesquisa" th:value="${generopesquisa}">
+								<option value="">--[Todos]--</option>
+								<option value="FANTASIA" th:text="Fantasia"/>
+								<option value="CIENTIFICO" th:text="Científico"/>
+								<option value="HORROR" th:text="Horror"/>
+								<option value="ROMANCE" th:text="Romance"/>
+							</select>
+	                  </div>
+                 </div>
+				  
+				  <input type="submit" value="Buscar" class="btn btn-primary">
+			  </form>
+              
+              
+              
+          
+				</br>
+				</br>
         <div class="container">
 		  <div class="row">
 		  
 		    <div class="col"  th:each="livro : ${livros.content}">
+	   
        		 <div class="card" style="width: 15rem;">
        		 	</br>
 				   <img th:if="${livro.image != null}" th:src="@{/imagemloja/{idlivroloja}(idlivroloja=${livro.id})}" class="img-thumbnail mx-auto"  height="130px" width="130px">
@@ -58,15 +81,15 @@
 						<div th:if="${livros != null}">
 					
 							<span th:if="${livros.hasPrevious()}">
-								<a th:href="@{/livropag(page=${livros.number-1}, size=${livros.size})}">Anterior</a>
+								<a th:href="@{/livropag(page=${livros.number-1}, size=${livros.size}, generopesquisa=${generopesquisa})}">Anterior</a>
 							</span>
 						
 							<th:block th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
-								<a th:href="@{/livropag(page=${i}, size=${livros.size})}">[[ ${i} + 1 ]]</a>
+								<a th:href="@{/livropag(page=${i}, size=${livros.size}, generopesquisa=${generopesquisa})}">[[ ${i} + 1 ]]</a>
 							</th:block>
 							
 							<span th:if="${livros.hasNext()}">
-								<a th:href="@{/livropag(page=${livros.number+1}, size=${livros.size})}">Próximo</a>
+								<a th:href="@{/livropag(page=${livros.number+1}, size=${livros.size}, generopesquisa=${generopesquisa})}">Próximo</a>
 							</span>
 			
 						</div>

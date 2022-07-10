@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alison.lojadelivros.model.Cliente;
@@ -36,36 +37,32 @@ import com.alison.lojadelivros.service.LojaService;
 
 @Controller
 public class LojaController {
-	
+
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	private List<ItensCompra> itensCompra = new ArrayList<ItensCompra>();
-	
+
 	private Compra compra = new Compra();
-	
 
 	@Autowired
 	private LivroRepository livroRepository;
-	
+
 	@Autowired
 	private ItensCompraRepository itensCompraRepository;
-	
+
 	@Autowired
 	private CompraRepository compraRepository;
-	
+
 	@Autowired
 	private LojaService lojaService;
-	
-	
+
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
-		for(ItensCompra it: itensCompra) {
+		for (ItensCompra it : itensCompra) {
 			compra.setValorTotal(compra.getValorTotal() + it.getValorTotal());
 		}
 	}
-	
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/lojadelivro")
 	public ModelAndView inicio() {
@@ -76,11 +73,13 @@ public class LojaController {
 	}
 
 	@GetMapping("/livropag")
-	public ModelAndView livropag(@PageableDefault(size = 8) Pageable pageable, ModelAndView model) {
+	public ModelAndView livropag(@PageableDefault(size = 8) Pageable pageable, ModelAndView model,
+			@RequestParam("generopesquisa") String generopesquisa) {
 
-		Page<Livro> pageLivro = livroRepository.findAll(pageable);
+		Page<Livro> pageLivro = livroRepository.findLivroByGeneroPage(generopesquisa, pageable);
 		model.addObject("livros", pageLivro);
 		model.addObject("livroobj", new Livro());
+		model.addObject("generopesquisa", generopesquisa);
 		model.setViewName("cadastro/lojadelivro");
 
 		return model;
@@ -88,8 +87,10 @@ public class LojaController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/lojalivros")
 	public ModelAndView lojalivros() {
+		
 		ModelAndView andView = new ModelAndView("cadastro/lojadelivro");
 		andView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 8, Sort.by("titulo"))));
+		andView.addObject("livroobj", new Livro());
 		return andView;
 	}
 
@@ -123,60 +124,57 @@ public class LojaController {
 		return modelAndView;
 
 	}
-	
+
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
 	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
-		//ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-			
-			
-			for(ItensCompra it : itensCompra) {
-				if(it.getLivro().getId().equals(id)) {
-					if(acao.equals(1)) {
-						it.setQuantidade(it.getQuantidade() + 1);
-						it.setValorTotal(0.);
-						it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
-					}else if(acao == 0) {
-						it.setQuantidade(it.getQuantidade() - 1);
-						it.setValorTotal(0.);
-						it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
-					}
-					break;
+		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+
+		for (ItensCompra it : itensCompra) {
+			if (it.getLivro().getId().equals(id)) {
+				if (acao.equals(1)) {
+					it.setQuantidade(it.getQuantidade() + 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
+				} else if (acao == 0) {
+					it.setQuantidade(it.getQuantidade() - 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				}
+				break;
 			}
-			
-		
-		//modelAndView.addObject("listaitens", itensCompra);
+		}
+
+		// modelAndView.addObject("listaitens", itensCompra);
 		return "redirect:/carrinho";
-		
+
 	}
-	
+
 	@GetMapping("/removerProduto/{idlivro}")
 	public String removerProdutoCarrinho(@PathVariable Long idlivro) {
-	//	ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-		
-		for(ItensCompra it : itensCompra) {
-			if(it.getLivro().getId() == idlivro) { // it.getLivro().getId().equals(idlivro)
+		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+
+		for (ItensCompra it : itensCompra) {
+			if (it.getLivro().getId().equals(idlivro)) { // it.getLivro().getId().equals(idlivro)
 				itensCompra.remove(it);
 				break;
 			}
 		}
-		
-		
-		//modelAndView.addObject("listaitens", itensCompra);
+
+		// modelAndView.addObject("listaitens", itensCompra);
 		return "redirect:/carrinho";
 
 	}
-	
+
 	@GetMapping("/addcarrinho/{idlivro}")
 	public String addcarrinho(@PathVariable Long idlivro) {
-		//ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-		
+		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+
 		Optional<Livro> li = livroRepository.findById(idlivro);
 		Livro livro = li.get();
-		
+
 		int controle = 0;
-		for(ItensCompra it : itensCompra) {
-			if(it.getLivro().getId().equals(livro.getId())) {
+		for (ItensCompra it : itensCompra) {
+			if (it.getLivro().getId().equals(livro.getId())) {
 				it.setQuantidade(it.getQuantidade() + 1);
 				it.setValorTotal(0.);
 				it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
@@ -184,45 +182,61 @@ public class LojaController {
 				break;
 			}
 		}
-		
-		if(controle == 0) {
-		ItensCompra item = new ItensCompra();
-		item.setLivro(livro);
-		item.setValorUnitario(livro.getPreco());
-		item.setQuantidade(item.getQuantidade() + 1);
-		item.setValorTotal(item.getValorTotal() + (item.getQuantidade() * item.getValorUnitario()));
-		itensCompra.add(item);
+
+		if (controle == 0) {
+			ItensCompra item = new ItensCompra();
+			item.setLivro(livro);
+			item.setValorUnitario(livro.getPreco());
+			item.setQuantidade(item.getQuantidade() + 1);
+			item.setValorTotal(item.getValorTotal() + (item.getQuantidade() * item.getValorUnitario()));
+			itensCompra.add(item);
 		}
-		
-		//modelAndView.addObject("listaitens", itensCompra);
-		
+
+		// modelAndView.addObject("listaitens", itensCompra);
+
 		return "redirect:/carrinho";
 
 	}
-	
+
 	@PostMapping("/finalizarCompra")
 	public ModelAndView finalizarCompra(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
-		
+
 		compra.setCliente(cliente);
 		compraRepository.saveAndFlush(compra);
-		
-		for(ItensCompra c: itensCompra) {
+
+		for (ItensCompra c : itensCompra) {
 			c.setCompra(compra);
 			lojaService.alterarQuantidade(c.getLivro().getId(), c.getQuantidade());
 			modelAndView.addObject("itempedido", c);
 			itensCompraRepository.saveAndFlush(c);
 		}
-		
+
 		itensCompra = new ArrayList<>();
 		compra = new Compra();
 		return modelAndView;
 	}
 
-	
+	@PostMapping("**/pesquisarlivro2")
+	public ModelAndView pesquisar(@RequestParam("generopesquisa") String generopesquisa,
+			@PageableDefault(size = 8, sort = { "genero" }) Pageable pageable) {
+
+		Page<Livro> livros = null;
+
+		livros = livroRepository.findLivroByGeneroPage(generopesquisa, pageable);
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/lojadelivro");
+		modelAndView.addObject("livros", livros);
+		modelAndView.addObject("livroobj", new Livro());
+		modelAndView.addObject("generopesquisa", generopesquisa);
+
+		return modelAndView;
+	}
 	
 	
 }
+
+
 
 
 
