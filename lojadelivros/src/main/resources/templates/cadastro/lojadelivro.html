@@ -68,7 +68,7 @@
 				    <p>Valor: <span th:text = "${livro.preco}"></span></p>
 				    
 				    <a th:if="${livro.estoque != 0}"  th:href="@{/addcarrinho/{idlivro}(idlivro=${livro.id})}" class="btn btn-primary">Adicionar</a>
-				    <a th:if="${livro.estoque == 0}" onclick="return confirm('Produto está em falta');"  class="btn btn-primary">Adicionar</a>
+				    <a th:if="${livro.estoque == 0}" onclick="return confirm('Produto está em falta');"  class="btn btn-danger">Fora de estoque</a>
 				  </div>
 				</div>
              </div>
