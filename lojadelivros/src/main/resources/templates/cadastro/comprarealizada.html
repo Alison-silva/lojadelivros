@@ -41,7 +41,13 @@
 		              </div>
 		              
 		              <p class="mb-0">Compra Realizada</p>
-		                 <p>Id do pedido: <span th:text="${c.id}" ></span></p>
+		                 <p>Id do pedido: <span th:text="${c.compra.id}" ></span></p>
+		                 
+		                 <a th:href="@{/gerarnotapdf/{id}(id=${c.compra.id})}">
+		                 <button  type="button"class="btn btn-primary">Nota da Compra</button></a>
+		                 
+		                 
+		                 
 		                 <hr class="horizontal dark"> 
 		                 <a href="/lojadelivro"><button type="button"class="btn btn-success">Voltar</button></a> 
 		              

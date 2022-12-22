@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -29,11 +30,14 @@ import com.alison.lojadelivros.model.Cliente;
 import com.alison.lojadelivros.model.Compra;
 import com.alison.lojadelivros.model.ItensCompra;
 import com.alison.lojadelivros.model.Livro;
+import com.alison.lojadelivros.model.dto.LivroDTO;
 import com.alison.lojadelivros.repository.ClienteRepository;
 import com.alison.lojadelivros.repository.CompraRepository;
 import com.alison.lojadelivros.repository.ItensCompraRepository;
 import com.alison.lojadelivros.repository.LivroRepository;
 import com.alison.lojadelivros.service.LojaService;
+import com.alison.lojadelivros.service.NotaCompraService;
+import com.alison.lojadelivros.service.ReportUtil;
 
 @Controller
 public class LojaController {
@@ -56,6 +60,12 @@ public class LojaController {
 
 	@Autowired
 	private LojaService lojaService;
+	
+	@Autowired
+	private ReportUtil reportUtil;
+	
+	@Autowired
+	private NotaCompraService notaCompraService;
 
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
@@ -234,7 +244,50 @@ public class LojaController {
 	}
 	
 	
+	@GetMapping("**/gerarnotapdf/{id}")
+	public void imprimePdf(@PathVariable("id") Long idCompra,
+			HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
+		System.out.println("Chamou a função");
+		
+		List<LivroDTO> livroDTO = new ArrayList<LivroDTO>();
+		
+		livroDTO = notaCompraService.GerarRelatorioNota(idCompra);
+		
+		byte[] pdf = reportUtil.gerarRelatorio(livroDTO, "relatorio_nota_livro", request.getServletContext());
+		
+		response.setContentLength(pdf.length);
+		
+		//Definir na resposta o tipo de arquivo
+		response.setContentType("application/octet-stream");
+		
+		//Definir o cabeçalho da resposta
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", "relatorio.pdf");
+		response.setHeader(headerKey, headerValue);
+		
+		//Finaliza a resposta pro navegador
+		response.getOutputStream().write(pdf);
+		
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

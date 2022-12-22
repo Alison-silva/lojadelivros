@@ -1,6 +1,8 @@
 package com.alison.lojadelivros.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alison.lojadelivros.model.Compra;
+import com.alison.lojadelivros.model.dto.LivroDTO;
 import com.alison.lojadelivros.repository.CompraRepository;
 import com.alison.lojadelivros.repository.ItensCompraRepository;
+import com.alison.lojadelivros.service.NotaCompraService;
+import com.alison.lojadelivros.service.ReportUtil;
 
 @Controller
 public class PedidoController {
@@ -29,7 +34,12 @@ public class PedidoController {
 	
 	@Autowired
 	private ItensCompraRepository itensCompraRepository;
+	
+	@Autowired
+	private ReportUtil reportUtil;
 
+	@Autowired
+	private NotaCompraService notaCompraService;
 
 	@RequestMapping(value = "/listadepedidos")
 	public ModelAndView inicio() {
@@ -71,25 +81,29 @@ public class PedidoController {
 	}
 	
 	@GetMapping("**/imprimirnota/{id}")
-	public ModelAndView imprimirnota(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+	public void imprimirnota(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		ModelAndView modelAndView = new ModelAndView("cadastro/listadepedidos");
+		System.out.println("Chamou a função");
 		
-		Compra compra = compraRepository.findById(id).get();
+		List<LivroDTO> livroDTO = new ArrayList<LivroDTO>();
 		
-		modelAndView.addObject("itens", itensCompraRepository.getItens(id));
-		modelAndView.addObject("compra", compra);
+		livroDTO = notaCompraService.GerarRelatorioNota(id);
 		
-		Map<Object, Object> params = new HashMap<>();
+		byte[] pdf = reportUtil.gerarRelatorio(livroDTO, "relatorio_nota_livro", request.getServletContext());
 		
-		params.put("itens", itensCompraRepository.getItens(id));
-		params.put("compra", compra);
+		response.setContentLength(pdf.length);
 		
-	
+		//Definir na resposta o tipo de arquivo
+		response.setContentType("application/octet-stream");
 		
+		//Definir o cabeçalho da resposta
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", "relatorio.pdf");
+		response.setHeader(headerKey, headerValue);
 		
-		modelAndView.addObject("pedidos", compraRepository.findAll(PageRequest.of(0, 8)));
-		return modelAndView;
+		//Finaliza a resposta pro navegador
+		response.getOutputStream().write(pdf);
+		
 	}
 	
 

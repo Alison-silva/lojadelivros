@@ -39,6 +39,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Cliente</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">R$</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nota PDF</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
                     </tr>
                   </thead>
@@ -57,6 +58,10 @@
                
                       <td th:text = "${pedido.valorTotal}">
                         	
+                      </td>
+                      
+                      <td>
+                      	<a th:href="@{/imprimirnota/{id}(id=${pedido.id})}" >PDF</a>	
                       </td>
                       
                       <td class="align-middle text-center">
