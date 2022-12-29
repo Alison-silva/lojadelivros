@@ -48,3 +48,18 @@ public class LojadelivrosApplication extends WebMvcConfigurerAdapter implements 
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

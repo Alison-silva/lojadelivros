@@ -92,4 +92,12 @@ public class Compra implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+	@Override
+	public String toString() {
+		return "Compra [id=" + id + ", cliente=" + cliente + ", dataCompra=" + dataCompra + ", valorTotal=" + valorTotal
+				+ ", itensCompras=" + itensCompras + "]";
+	}
+	
+	
+
 }

@@ -1,6 +1,7 @@
 package com.alison.lojadelivros.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -169,5 +170,14 @@ public class Livro implements Serializable {
 		Livro other = (Livro) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Livro [id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", descricao=" + descricao + ", isbn="
+				+ isbn + ", ano=" + ano + ", pagina=" + pagina + ", estoque=" + estoque + ", genero=" + genero
+				+ ", preco=" + preco + ", image=" + Arrays.toString(image) + ", fornecedor=" + fornecedor + "]";
+	}
+	
+	
 
 }

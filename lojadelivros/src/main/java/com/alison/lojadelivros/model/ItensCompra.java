@@ -83,5 +83,13 @@ public class ItensCompra implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 
+	@Override
+	public String toString() {
+		return "ItensCompra [id=" + id + ", livro=" + livro + ", compra=" + compra + ", quantidade=" + quantidade
+				+ ", valorUnitario=" + valorUnitario + ", valorTotal=" + valorTotal + "]";
+	}
+	
+	
+
 
 }
