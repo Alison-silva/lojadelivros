@@ -26,9 +26,6 @@ public class LojadelivrosApplication extends WebMvcConfigurerAdapter implements 
 
 	public static void main(String[] args) {
 		SpringApplication.run(LojadelivrosApplication.class, args);
-		
-		
-		
 	}
 	
 	@Override
@@ -46,20 +43,4 @@ public class LojadelivrosApplication extends WebMvcConfigurerAdapter implements 
 							"classpath:/resources/", "classpath:/static/css/", "classpath:/static/js/", "/resources/**",
 							"/WEB-INF/classes/static/**", "/alterarQuantidade/**");
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
