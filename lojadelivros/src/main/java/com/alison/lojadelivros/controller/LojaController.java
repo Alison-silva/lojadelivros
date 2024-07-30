@@ -85,13 +85,11 @@ public class LojaController {
 	@GetMapping("/livropag")
 	public ModelAndView livropag(@PageableDefault(size = 8, sort = { "titulo" }) Pageable pageable, ModelAndView model,
 			@RequestParam("generopesquisa") String generopesquisa) {
-
 		Page<Livro> pageLivro = livroRepository.findLivroByGeneroPage(generopesquisa, pageable);
 		model.addObject("livros", pageLivro);
 		model.addObject("livroobj", new Livro());
 		model.addObject("generopesquisa", generopesquisa);
 		model.setViewName("cadastro/lojadelivro");
-
 		return model;
 	}
 
@@ -107,18 +105,14 @@ public class LojaController {
 	@GetMapping("/imagemloja/{idlivroloja}")
 	public void imagemloja(@PathVariable("idlivroloja") Long id, HttpServletResponse response) throws IOException {
 		response.setContentType("image/jpeg");
-
 		Livro livro = livroRepository.findById(id).get();
-
 		InputStream is = new ByteArrayInputStream(livro.getImage());
 		IOUtils.copy(is, response.getOutputStream());
 	}
 
 	@GetMapping("/detalheslivro/{idlivro}")
 	public ModelAndView detalheslivro(@PathVariable("idlivro") Long idlivro) {
-
 		Livro livro = livroRepository.findById(idlivro).get();
-
 		ModelAndView modelAndView = new ModelAndView("cadastro/detalheslivro");
 		modelAndView.addObject("livroobj", livro);
 		return modelAndView;
@@ -132,13 +126,11 @@ public class LojaController {
 		modelAndView.addObject("listaitens", itensCompra);
 		modelAndView.addObject("clientes", clienteRepository.findAll());
 		return modelAndView;
-
 	}
 
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
 	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
 		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-
 		for (ItensCompra it : itensCompra) {
 			if (it.getLivro().getId().equals(id)) {
 				if (acao.equals(1)) {
@@ -153,35 +145,28 @@ public class LojaController {
 				break;
 			}
 		}
-
 		// modelAndView.addObject("listaitens", itensCompra);
 		return "redirect:/carrinho";
-
 	}
 
 	@GetMapping("/removerProduto/{idlivro}")
 	public String removerProdutoCarrinho(@PathVariable Long idlivro) {
 		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-
 		for (ItensCompra it : itensCompra) {
 			if (it.getLivro().getId().equals(idlivro)) { // it.getLivro().getId().equals(idlivro)
 				itensCompra.remove(it);
 				break;
 			}
 		}
-
 		// modelAndView.addObject("listaitens", itensCompra);
 		return "redirect:/carrinho";
-
 	}
 
 	@GetMapping("/addcarrinho/{idlivro}")
 	public String addcarrinho(@PathVariable Long idlivro) {
 		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-
 		Optional<Livro> li = livroRepository.findById(idlivro);
 		Livro livro = li.get();
-
 		int controle = 0;
 		for (ItensCompra it : itensCompra) {
 			if (it.getLivro().getId().equals(livro.getId())) {
@@ -192,7 +177,6 @@ public class LojaController {
 				break;
 			}
 		}
-
 		if (controle == 0) {
 			ItensCompra item = new ItensCompra();
 			item.setLivro(livro);
@@ -201,27 +185,21 @@ public class LojaController {
 			item.setValorTotal(item.getValorTotal() + (item.getQuantidade() * item.getValorUnitario()));
 			itensCompra.add(item);
 		}
-
 		// modelAndView.addObject("listaitens", itensCompra);
-
 		return "redirect:/carrinho";
-
 	}
 
 	@PostMapping("/finalizarCompra")
 	public ModelAndView finalizarCompra(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
-
 		compra.setCliente(cliente);
 		compraRepository.saveAndFlush(compra);
-
 		for (ItensCompra c : itensCompra) {
 			c.setCompra(compra);
 			lojaService.alterarQuantidade(c.getLivro().getId(), c.getQuantidade());
 			modelAndView.addObject("itempedido", c);
 			itensCompraRepository.saveAndFlush(c);
 		}
-
 		itensCompra = new ArrayList<>();
 		compra = new Compra();
 		return modelAndView;
@@ -230,16 +208,12 @@ public class LojaController {
 	@PostMapping("**/pesquisarlivro2")
 	public ModelAndView pesquisar(@RequestParam("generopesquisa") String generopesquisa,
 			@PageableDefault(size = 8, sort = { "genero" }) Pageable pageable) {
-
 		Page<Livro> livros = null;
-
 		livros = livroRepository.findLivroByGeneroPage(generopesquisa, pageable);
-
 		ModelAndView modelAndView = new ModelAndView("cadastro/lojadelivro");
 		modelAndView.addObject("livros", livros);
 		modelAndView.addObject("livroobj", new Livro());
 		modelAndView.addObject("generopesquisa", generopesquisa);
-
 		return modelAndView;
 	}
 	
