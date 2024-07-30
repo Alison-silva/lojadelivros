@@ -60,10 +60,10 @@ public class LojaController {
 
 	@Autowired
 	private LojaService lojaService;
-	
+
 	@Autowired
 	private ReportUtil reportUtil;
-	
+
 	@Autowired
 	private NotaCompraService notaCompraService;
 
@@ -83,8 +83,8 @@ public class LojaController {
 	}
 
 	@GetMapping("/livropag")
-	public ModelAndView livropag(@PageableDefault(size = 8, sort = { "titulo" }) Pageable pageable, ModelAndView model,
-			@RequestParam("generopesquisa") String generopesquisa) {
+	public ModelAndView livropag(@PageableDefault(size = 8, sort = {"titulo"}) Pageable pageable, ModelAndView model,
+								 @RequestParam("generopesquisa") String generopesquisa) {
 		Page<Livro> pageLivro = livroRepository.findLivroByGeneroPage(generopesquisa, pageable);
 		model.addObject("livros", pageLivro);
 		model.addObject("livroobj", new Livro());
@@ -95,12 +95,32 @@ public class LojaController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/lojalivros")
 	public ModelAndView lojalivros() {
-		
+
 		ModelAndView andView = new ModelAndView("cadastro/lojadelivro");
 		andView.addObject("livros", livroRepository.findAll(PageRequest.of(0, 8, Sort.by("titulo"))));
 		andView.addObject("livroobj", new Livro());
 		return andView;
 	}
+
+	//PESQUISA DE CLIENTE
+	@PostMapping("**/pesquisarcliente2")
+	public ModelAndView pesquisar2(@RequestParam("nomepesquisa") String nomepesquisa,
+								  @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
+
+		Page<Cliente> clientes = null;
+
+		clientes = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+		modelAndView.addObject("clientes", clientes);
+		modelAndView.addObject("clienteobj", new Cliente());
+		modelAndView.addObject("nomepesquisa", nomepesquisa);
+
+		return modelAndView;
+	}
+
+
+	//FIM DA PESQUISA
 
 	@GetMapping("/imagemloja/{idlivroloja}")
 	public void imagemloja(@PathVariable("idlivroloja") Long id, HttpServletResponse response) throws IOException {
