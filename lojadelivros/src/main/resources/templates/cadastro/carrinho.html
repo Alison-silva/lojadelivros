@@ -90,65 +90,18 @@
                                     <tr>
                                 </tbody>
                                 </table>
-                                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
-                                      clientes
-                                  </button>
-                
-                    <!--      <div class="col-md-7">
+
+                      <div class="col-md-7">
                           <div class="form-group">
                             <label for="cliente" class="form-control-label">Cliente</label>
                             <select class="form-select" id="cliente" name="cliente" th:field="*{compra.cliente}">
                                 <option th:each="f : ${clientes}" th:value="${f.id}" th:text="${f.nome}">
                             </select>
                           </div>
-                          </div> -->
-                           <!--       <form class="form-inline" action="pesquisarcliente2" method="get">
-                                      <div class="form-group mb-2">
-                                          <label class="form-control-label" >Pesquisar por Nome</label>
-                                      </div>
-                                      <div class="form-group col-md-4">
-                                          <input class="form-control" name="nomepesquisa" id="nomepesquisa" th:value="${nomepesquisa}">
-                                      </div>
-                                      <input type="submit" value="Buscar" class="btn btn-primary">
-                                  </form> -->
-                                  <br><br>
-                                  <div class="form-group" th:field="*{compra.cliente}">
-                                      <label  class="form-control-label">Cliente</label>
-                                      <input class="form-select" id="cliente" name="cliente" >
-                                  </div>
-                                  <br><br>
-                                  <div class="card-body px-0 pt-0 pb-2">
-                                      <div class="table-responsive p-0">
-                                          <table class="table align-items-center mb-0">
+                          </div>
 
-                                              <thead>
-                                              <tr>
-                                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
-                                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Nome</th>
-                                                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">CPF</th>
-                                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Adicionar</th>
-                                              </tr>
-                                              </thead>
-                                              <tbody>
-                                              <tr th:each="cliente : ${clientes}">
-                                                  <td th:text = "${cliente.id}"></td>
 
-                                                  <td><span th:text = "${cliente.nome}"></span></td>
-
-                                                  <td><span th:text = "${cliente.cpf}"></span></td>
-
-                                                  <td class="align-middle text-center">
-                                                      <a th:href="@{/addcliente/{idcliente}(idcliente=${cliente.id})}">Adicionar</a>
-                                                  </td>
-
-                                              </tr>
-                                              </tbody>
-                                          </table>
-
-                                      </div>
-                                  </div>
-
-                              </div>
+                           </div>
                     </div>
                   </form>
                 </div>
