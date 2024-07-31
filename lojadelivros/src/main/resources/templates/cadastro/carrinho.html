@@ -90,107 +90,64 @@
                                 </tbody>
                                 </table>
                 
-                          <div class="col-md-7">
+                    <!--      <div class="col-md-7">
                           <div class="form-group">
                             <label for="cliente" class="form-control-label">Cliente</label>
                             <select class="form-select" id="cliente" name="cliente" th:field="*{compra.cliente}">
                                 <option th:each="f : ${clientes}" th:value="${f.id}" th:text="${f.nome}">
                             </select>
                           </div>
-                          </div>
+                          </div> -->
+
+
+                                  <form class="form-inline" action="pesquisarcliente2" method="get">
+
+                                      <div class="form-group mb-2">
+                                          <label class="form-control-label" >Pesquisar por Nome</label>
+                                      </div>
+
+                                      <div class="form-group col-md-4">
+                                          <input class="form-control" name="nomepesquisa" id="nomepesquisa" th:value="${nomepesquisa}">
+                                      </div>
 
 
 
-                      </div>
+                                      <input type="submit" value="Buscar" class="btn btn-primary">
+                                  </form>
+
+                                  <table>
+                                      <thead>
+                                      <tr>
+                                          <th>ID</th>
+                                          <th>Nome</th>
+                                          <th>CPF</th>
+                                          <th>Adicionar</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr th:each="cliente : ${clientes}">
+                                          <td th:text="${cliente.id}"></td>
+
+                                          <td>
+                                              <a th:text="${cliente.nome}"></a>
+                                          </td>
+
+                                          <td>
+                                              <a th:text="${cliente.cpf}"></a>
+                                          </td>
+
+                                          <td>
+                                              <a>Adicionar</a>
+                                          </td>
+
+                                      </tr>
+                                      </tbody>
+                                  </table>
+
+
+                              </div>
                     </div>
                   </form>
-                      <!--NOVA FUNÇÃO DE BUSCA -->
-                      <form class="form-inline" action="pesquisarcliente2" method="post">
-
-                          <div class="form-group mb-2">
-                              <label class="form-control-label" >Pesquisar por Nome</label>
-                          </div>
-
-                          <div class="form-group col-md-4">
-                              <input class="form-control" name="nomepesquisa" id="nomepesquisa" th:value="${nomepesquisa}">
-                          </div>
-
-                          <input type="submit" value="Buscar" class="btn btn-primary">
-                      </form>
-
-                  </div>
-
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-
-                                <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Foto</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Editar</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr th:each="cliente : ${clientes.content}">
-
-                                    <td th:text = "${cliente.id}">
-
-                                    </td>
-
-
-                                    <td>
-                                        <div class="d-flex px-2 py-2 ">
-                                            <div>
-                                                <img th:if="${cliente.image != null}" th:src="@{/imagem/{idcliente}(idcliente=${cliente.id})}" class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
-                                                <img th:if="${cliente.image == null}" class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td><a th:href="@{/telefones/{idcliente}(idcliente=${cliente.id})}"><span th:text = "${cliente.nome}"></span></a>
-
-                                    </td>
-
-                                    <td class="align-middle text-center">
-                                        <a th:href="@{/editarcliente/{idcliente}(idcliente=${cliente.id})}">Editar</a>
-                                    </td>
-
-                                    <td class="align-middle text-center">
-                                        <a onclick="return confirm('Deseja mesmo excluir?');" th:href="@{/removercliente/{idcliente}(idcliente=${cliente.id})}">Remover</a>
-                                    </td>
-
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="row" style="margin-top: 30px;">
-                                <center>
-                                    <div th:if="${clientes != null}">
-
-							<span th:if="${clientes.hasPrevious()}">
-								<a th:href="@{/clientespag(page=${clientes.number-1}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}">Anterior</a>
-							</span>
-
-                                        <th:block th:each="i: ${#numbers.sequence(0, clientes.totalPages - 1)}">
-                                            <a th:href="@{/clientespag(page=${i}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}">[[ ${i} + 1 ]]</a>
-                                        </th:block>
-
-                                        <span th:if="${clientes.hasNext()}">
-								<a th:href="@{/clientespag(page=${clientes.number+1}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}">Próximo</a>
-							</span>
-
-                                    </div>
-                                </center>
-                            </div>
-
-
-
-
-                      <!--FIM DA BUSCA -->
                 </div>
             </div>
           </div>

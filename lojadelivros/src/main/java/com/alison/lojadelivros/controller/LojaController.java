@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,20 +104,11 @@ public class LojaController {
 	}
 
 	//PESQUISA DE CLIENTE
-	@PostMapping("**/pesquisarcliente2")
-	public ModelAndView pesquisar2(@RequestParam("nomepesquisa") String nomepesquisa,
-								  @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
-
-		Page<Cliente> clientes = null;
-
-		clientes = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);
-
-		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-		modelAndView.addObject("clientes", clientes);
-		modelAndView.addObject("clienteobj", new Cliente());
-		modelAndView.addObject("nomepesquisa", nomepesquisa);
-
-		return modelAndView;
+	@GetMapping("/pesquisarcliente2")
+	public String pesquisarCliente(@RequestParam("nomepesquisa") String nomePesquisa, Model model) {
+		List<Cliente> clientesEncontrados = clienteRepository.findClienteByName(nomePesquisa);
+		model.addAttribute("clientes", clientesEncontrados);
+		return "cadastro/carrinho";
 	}
 
 
