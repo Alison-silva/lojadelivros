@@ -103,22 +103,6 @@ public class LojaController {
 		return andView;
 	}
 
-	//PESQUISA DE CLIENTE
-	@GetMapping("**/pesquisarcliente2")
-	public String pesquisarCliente(@RequestParam("nomepesquisa") String nomePesquisa, Model model) {
-		List<Cliente> clientesEncontrados = clienteRepository.findClienteByName(nomePesquisa);
-		model.addAttribute("clientes", clientesEncontrados);
-		return "cadastro/carrinho";
-	}
-
-	@GetMapping("**/addcliente/{idcliente}")
-	public String addCliente(@PathVariable("idcliente") Long idcliente, Model model) {
-		Cliente cliente = clienteRepository.findById(idcliente).get();
-		model.addAttribute("clienteobj", cliente);
-		return "cadastro/carrinho";
-	}
-	//FIM DA PESQUISA
-
 	@GetMapping("/imagemloja/{idlivroloja}")
 	public void imagemloja(@PathVariable("idlivroloja") Long id, HttpServletResponse response) throws IOException {
 		response.setContentType("image/jpeg");
