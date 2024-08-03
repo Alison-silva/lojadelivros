@@ -91,15 +91,16 @@
                                 </tbody>
                                 </table>
 
-                      <div class="col-md-7">
+                  <!--    <div class="col-md-7">
                           <div class="form-group">
                             <label for="cliente" class="form-control-label">Cliente</label>
                             <select class="form-select" id="cliente" name="cliente" th:field="*{compra.cliente}">
                                 <option th:each="f : ${clientes}" th:value="${f.id}" th:text="${f.nome}">
                             </select>
                           </div>
-                          </div>
+                      </div> -->
 
+                                  <a href="/addcliente"><button type="button"class="btn btn-success">Selecionar cliente</button></a>
 
                            </div>
                     </div>

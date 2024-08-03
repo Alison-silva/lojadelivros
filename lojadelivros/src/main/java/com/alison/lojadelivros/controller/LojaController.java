@@ -129,6 +129,15 @@ public class LojaController {
 		return modelAndView;
 	}
 
+	//Novos métodos
+	//Indo para a página de seleção de clientes
+	@RequestMapping(method = RequestMethod.GET, value = "/addcliente")
+	public ModelAndView addcliente() {
+		ModelAndView modelAndView = new ModelAndView("cadastro/addcliente");
+		return modelAndView;
+	}
+
+
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
 	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
 		// ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
