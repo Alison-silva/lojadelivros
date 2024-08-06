@@ -75,28 +75,27 @@
 		
 		  </div>
 		</div>
-		
-		 <div class="row" style="margin-top: 30px;">
-					<center>
-						<div th:if="${livros != null}">
-					
-							<span th:if="${livros.hasPrevious()}">
-								<a th:href="@{/livropag(page=${livros.number-1}, size=${livros.size}, generopesquisa=${generopesquisa})}">Anterior</a>
-							</span>
-						
-							<th:block th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
-								<a th:href="@{/livropag(page=${i}, size=${livros.size}, generopesquisa=${generopesquisa})}">[[ ${i} + 1 ]]</a>
-							</th:block>
-							
-							<span th:if="${livros.hasNext()}">
-								<a th:href="@{/livropag(page=${livros.number+1}, size=${livros.size}, generopesquisa=${generopesquisa})}">Próximo</a>
-							</span>
-			
-						</div>
-					</center>
-				</div>
+
+				<div class="row" style="margin-top: 30px;">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center" th:if="${livros != null}">
+
+						<li class="page-item" th:if="${livros.hasPrevious()}" >
+							<a class="page-link" th:href="@{/livropag(page=${livros.number-1}, size=${livros.size}, generopesquisa=${generopesquisa})}" ><<</a>
+						</li>
+
+						<li class="page-item" th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
+							<a class="page-link" th:href="@{/livropag(page=${i}, size=${livros.size}, generopesquisa=${generopesquisa})}">[[ ${i} + 1 ]]</a>
+						</li>
+
+						<li class="page-item" th:if="${livros.hasNext()}"  >
+							<a class="page-link" th:href="@{/livropag(page=${livros.number+1}, size=${livros.size}, generopesquisa=${generopesquisa})}" >>></a>
+						</li>
+
+					</ul>
+				</nav>
         
-              
+				</div>
          
           
           
