@@ -91,27 +91,27 @@
                     </tr>
                   </tbody>
                 </table>
-                
-                 <div class="row" style="margin-top: 30px;">
-					<center>
-						<div th:if="${fornecedores != null}">
-					
-							<span th:if="${fornecedores.hasPrevious()}">
-								<a th:href="@{/fornecedorpag(page=${fornecedores.number-1}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}">Anterior</a>
-							</span>
-						
-							<th:block th:each="i: ${#numbers.sequence(0, fornecedores.totalPages - 1)}">
-								<a th:href="@{/fornecedorpag(page=${i}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}">[[ ${i} + 1 ]]</a>
-							</th:block>
-							
-							<span th:if="${fornecedores.hasNext()}">
-								<a th:href="@{/fornecedorpag(page=${fornecedores.number+1}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}">Próximo</a>
-							</span>
-			
-						</div>
-					</center>
-				</div>
-            
+
+                  <div class="row" style="margin-top: 30px;">
+                      <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center" th:if="${fornecedores != null}">
+
+                              <li class="page-item" th:if="${fornecedores.hasPrevious()}" >
+                                  <a class="page-link" th:href="@{/fornecedorpag(page=${fornecedores.number-1}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}" ><<</a>
+                              </li>
+
+                              <li class="page-item" th:each="i: ${#numbers.sequence(0, fornecedores.totalPages - 1)}">
+                                  <a class="page-link" th:href="@{/fornecedorpag(page=${i}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}">[[ ${i} + 1 ]]</a>
+                              </li>
+
+                              <li class="page-item" th:if="${fornecedores.hasNext()}" >
+                                  <a class="page-link" th:href="@{/fornecedorpag(page=${fornecedores.number+1}, size=${fornecedores.size}, razaopesquisa=${razaopesquisa})}" >>></a>
+                              </li>
+
+                          </ul>
+                      </nav>
+                  </div>
+
             </div>
             </div>
         
