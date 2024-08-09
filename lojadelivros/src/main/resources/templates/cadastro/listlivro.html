@@ -92,29 +92,27 @@
                     </tr>
                   </tbody>
                 </table>
-                
-                <div class="row" style="margin-top: 30px;">
-					<center>
-						<div th:if="${livros != null}">
-					
-							<span th:if="${livros.hasPrevious()}">
-								<a th:href="@{/livrospag(page=${livros.number-1}, size=${livros.size}, titulopesquisa=${titulopesquisa})}">Anterior</a>
-							</span>
-						
-							<th:block th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
-								<a th:href="@{/livrospag(page=${i}, size=${livros.size}, titulopesquisa=${titulopesquisa})}">[[ ${i} + 1 ]]</a>
-							</th:block>
-							
-							<span th:if="${livros.hasNext()}">
-								<a th:href="@{/livrospag(page=${livros.number+1}, size=${livros.size}, titulopesquisa=${titulopesquisa})}">Próximo</a>
-							</span>
-			
-						</div>
-					</center>
-				</div>
-                
-                
-                
+
+                  <div class="row" style="margin-top: 30px;">
+                      <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center" th:if="${livros != null}">
+
+                              <li class="page-item" th:if="${livros.hasPrevious()}" >
+                                  <a class="page-link" th:href="@{/livrospag(page=${livros.number-1}, size=${livros.size}, titulopesquisa=${titulopesquisa})}" ><<</a>
+                              </li>
+
+                              <li class="page-item" th:each="i: ${#numbers.sequence(0, livros.totalPages - 1)}">
+                                  <a class="page-link" th:href="@{/livrospag(page=${i}, size=${livros.size}, titulopesquisa=${titulopesquisa})}">[[ ${i} + 1 ]]</a>
+                              </li>
+
+                              <li class="page-item" th:if="${livros.hasNext()}" >
+                                  <a class="page-link" th:href="@{/livrospag(page=${livros.number+1}, size=${livros.size}, titulopesquisa=${titulopesquisa})}" >>></a>
+                              </li>
+
+                          </ul>
+                      </nav>
+                  </div>
+
               </div>
             </div>
           </div>
