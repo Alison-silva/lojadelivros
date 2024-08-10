@@ -72,26 +72,27 @@
                     </tr>
                   </tbody>
                 </table>
-                
-                <div class="row" style="margin-top: 30px;">
-					<center>
-						<div th:if="${pedidos != null}">
-					
-							<span th:if="${pedidos.hasPrevious()}">
-								<a th:href="@{/pedidopag(page=${pedidos.number-1}, size=${pedidos.size})}">Anterior</a>
-							</span>
-						
-							<th:block th:each="i: ${#numbers.sequence(0, pedidos.totalPages - 1)}">
-								<a th:href="@{/pedidopag(page=${i}, size=${pedidos.size})}">[[ ${i} + 1 ]]</a>
-							</th:block>
-							
-							<span th:if="${pedidos.hasNext()}">
-								<a th:href="@{/pedidopag(page=${pedidos.number+1}, size=${pedidos.size})}">Próximo</a>
-							</span>
-			
-						</div>
-					</center>
-				</div>
+
+                  <div class="row" style="margin-top: 30px;">
+                      <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center" th:if="${pedidos != null}">
+
+                              <li class="page-item" th:if="${pedidos.hasPrevious()}" >
+                                  <a class="page-link" th:href="@{/pedidopag(page=${pedidos.number-1}, size=${pedidos.size})}"><<</a>
+                              </li>
+
+                              <li class="page-item" th:each="i: ${#numbers.sequence(0, pedidos.totalPages - 1)}">
+                                  <a class="page-link" th:href="@{/pedidopag(page=${i}, size=${pedidos.size})}">[[ ${i} + 1 ]]</a>
+                              </li>
+
+                              <li class="page-item" th:if="${pedidos.hasNext()}">
+                                  <a class="page-link" th:href="@{/pedidopag(page=${pedidos.number+1}, size=${pedidos.size})}">>></a>
+                              </li>
+
+                          </ul>
+                      </nav>
+                  </div>
+
                 
               </div>
             </div>
