@@ -16,22 +16,84 @@
     <!-- Navbar -->
     <div th:replace="navbar :: navbar"></div>
     <!-- End Navbar -->
-    <div class="container-fluid py-4">
-        <div class="row mt-4">
-            <div class="col-lg-5">
-                <div class="card card-carousel overflow-hidden h-100 p-0">
-                    <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Lista de Clientes</h6>
+
+                        <a><button type="button"class="btn btn-success">botão</button></a>
+
+                        <form class="form-inline"  method="post">
+
+                            <div class="form-group mb-2">
+                                <label class="form-control-label" >Pesquisar por Nome</label>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <input class="form-control" >
+                            </div>
+
+                            <input type="submit" value="Buscar" class="btn btn-primary">
+                        </form>
+
+                    </div>
+
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-3">Foto</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nome</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Editar</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Excluir</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr >
+
+                                    <td >
+
+                                    </td>
+
+
+                                    <td>
+                                        <div class="d-flex px-2 py-2 ">
+                                            <div>
+                                                <img  class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
+                                                <img class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td><a ><span ></span></a>
+
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        <a >Editar</a>
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        <a >Remover</a>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Trabalhe aqui -->
-        <h6>Selecione um cliente</h6>
-
-
-
-
-        <!-- Fim da página -->
     </div>
 </main>
 

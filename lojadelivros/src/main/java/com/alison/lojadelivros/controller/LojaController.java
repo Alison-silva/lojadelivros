@@ -233,8 +233,6 @@ public class LojaController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
-		System.out.println("Chamou a função");
-		
 		List<LivroDTO> livroDTO = new ArrayList<LivroDTO>();
 		
 		livroDTO = notaCompraService.GerarRelatorioNota(idCompra);
