@@ -23,7 +23,7 @@
                     <div class="card-header pb-0">
                         <h6>Lista de Clientes</h6>
 
-                        <form class="form-inline"  method="post">
+                        <form class="form-inline" action="pesquisarcliente3" method="post">
 
                             <div class="form-group mb-2">
                                 <label class="form-control-label" >Pesquisar por Nome</label>
@@ -52,23 +52,13 @@
                                 </thead>
 
                                 <tbody>
-                                <tr >
+                                <tr th:each="cliente : ${clientes}">
 
-                                    <td >
+                                    <td th:text = "${cliente.id}"></td>
 
-                                    </td>
+                                    <td th:text = "${cliente.nome}"></td>
 
-
-                                    <td>
-                                        <div class="d-flex px-2 py-2 ">
-                                            <div>
-                                                <img  class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
-                                                <img class="avatar avatar-sm me-3" alt="user1" height="50px" width="50px">
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td><a ><span ></span></a>
+                                    <td th:text = "${cliente.cpf}"></td>
 
                                     </td>
 

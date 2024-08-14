@@ -134,8 +134,25 @@ public class LojaController {
 	@RequestMapping(method = RequestMethod.GET, value = "/addcliente")
 	public ModelAndView addcliente() {
 		ModelAndView modelAndView = new ModelAndView("cadastro/addcliente");
+		List<Cliente> cli = clienteRepository.findAll();
+		modelAndView.addObject("clientes", cli);
 		return modelAndView;
 	}
+
+//	@PostMapping("**/pesquisarcliente3")
+/*	public ModelAndView pesquisar3(@RequestParam("nomepesquisa") String nomepesquisa,
+								  @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
+
+		Page<Cliente> clientes = null;
+		clientes = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);
+		ModelAndView modelAndView = new ModelAndView("cadastro/addcliente");
+		modelAndView.addObject("clientes", clientes);
+		modelAndView.addObject("clienteobj", new Cliente());
+		modelAndView.addObject("nomepesquisa", nomepesquisa);
+
+		return modelAndView;
+	}*/
+
 
 
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
