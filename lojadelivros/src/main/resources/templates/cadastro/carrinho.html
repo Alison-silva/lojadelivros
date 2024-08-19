@@ -91,19 +91,12 @@
                                 </tbody>
                                 </table>
 
-                  <!--    <div class="col-md-7">
-                          <div class="form-group">
-                            <label for="cliente" class="form-control-label">Cliente</label>
-                            <select class="form-select" id="cliente" name="cliente" th:field="*{compra.cliente}">
-                                <option th:each="f : ${clientes}" th:value="${f.id}" th:text="${f.nome}">
-                            </select>
-                          </div>
-                      </div> -->
                                   <div class="col-md-7">
                                       <div class="form-group" >
                                           <label  class="form-control-label">Cliente</label>
                                           <input id="cliente" name="cliente" th:field="*{compra.cliente}" class="form-control" readonly>
-
+                                          </br>
+                                          <input th:field="*{compra.cliente.nome}" class="form-control" readonly >
                                       </div>
                                   </div>
 
@@ -163,7 +156,7 @@
     </div>
   </main>
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>

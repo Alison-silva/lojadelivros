@@ -153,25 +153,12 @@ public class LojaController {
 	}
 
 	//Mandar cliente para a pagina de carrinho
-	//@GetMapping("/addclicarrinho/{idcliente}")
-	/*public ModelAndView addclientecarrinho(@PathVariable("idcliente") Long idcliente) {
-		Cliente cliente = clienteRepository.findById(idcliente).get();
-		Compra compra = new Compra(); // Inicialize o objeto compra
-		compra.setCliente(cliente);
-
-		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
-		modelAndView.addObject("clienteobj", cliente);
-		modelAndView.addObject("compra", compra);
-		return modelAndView;
-	}*/
-
 	@GetMapping("/addclicarrinho/{idcliente}")
 	public String addclientecarrinho(@PathVariable("idcliente") Long idcliente, RedirectAttributes redirectAttributes) {
 		Cliente cliente = clienteRepository.findById(idcliente).get();
 		redirectAttributes.addFlashAttribute("clienteobj", cliente);
 		return "redirect:/carrinho";
 	}
-
 
 	//Pesquisar clientes por página
 	@PostMapping("**/pesquisarcliente3")
