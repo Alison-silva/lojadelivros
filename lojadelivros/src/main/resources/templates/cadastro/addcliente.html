@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="form-group col-md-4">
-                                <input class="form-control" >
+                                <input class="form-control" name="nomepesquisa" id="nomepesquisa" th:value="${nomepesquisa}" >
                             </div>
 
                             <input type="submit" value="Pesquisar clientes" class="btn btn-primary">
@@ -52,7 +52,7 @@
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="cliente : ${clientes}">
+                                <tr th:each="cliente : ${clientes.content}">
 
                                     <td th:text = "${cliente.id}"></td>
 
@@ -66,10 +66,29 @@
                                         <a><button type="button" class="btn btn-success">Adicionar</button></a>
                                     </td>
 
-
                                 </tr>
                                 </tbody>
                             </table>
+
+                            <div class="row" style="margin-top: 30px;">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center" th:if="${clientes != null}">
+
+                                        <li class="page-item" th:if="${clientes.hasPrevious()}" >
+                                            <a class="page-link" th:href="@{/clientespagadd(page=${clientes.number-1}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}" ><<</a>
+                                        </li>
+
+                                        <li class="page-item" th:each="i: ${#numbers.sequence(0, clientes.totalPages - 1)}">
+                                            <a class="page-link" th:href="@{/clientespagadd(page=${i}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}">[[ ${i} + 1 ]]</a>
+                                        </li>
+
+                                        <li class="page-item" th:if="${clientes.hasNext()}" >
+                                            <a class="page-link" th:href="@{/clientespagadd(page=${clientes.number+1}, size=${clientes.size}, nomepesquisa=${nomepesquisa})}" >>></a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            </div>
 
 
 

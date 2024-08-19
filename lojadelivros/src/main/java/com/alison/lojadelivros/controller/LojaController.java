@@ -134,25 +134,41 @@ public class LojaController {
 	@RequestMapping(method = RequestMethod.GET, value = "/addcliente")
 	public ModelAndView addcliente() {
 		ModelAndView modelAndView = new ModelAndView("cadastro/addcliente");
-		List<Cliente> cli = clienteRepository.findAll();
-		modelAndView.addObject("clientes", cli);
+		modelAndView.addObject("clienteobj", new Cliente());
+		modelAndView.addObject("clientes", clienteRepository.findAll(PageRequest.of(0, 5, Sort.by("nome"))));
 		return modelAndView;
 	}
 
-//	@PostMapping("**/pesquisarcliente3")
-/*	public ModelAndView pesquisar3(@RequestParam("nomepesquisa") String nomepesquisa,
+	//Carregar Pagina pelo seletor
+	@GetMapping("/clientespagadd")
+	public ModelAndView carregaClientePorPaginacaoAdd(@PageableDefault(size=5, sort = {"nome"}) Pageable pageable,
+												   ModelAndView model, @RequestParam("nomepesquisa") String nomepesquisa) {
+
+		Page<Cliente> pageCliente = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);
+		model.addObject("clientes", pageCliente);
+		model.addObject("clienteobj", new Cliente());
+		model.addObject("nomepesquisa", nomepesquisa);
+		model.setViewName("cadastro/addcliente");
+
+		return model;
+	}
+
+	//Pesquisar clientes por página
+	@PostMapping("**/pesquisarcliente3")
+	public ModelAndView pesquisaradd(@RequestParam("nomepesquisa") String nomepesquisa,
 								  @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
 
 		Page<Cliente> clientes = null;
+
 		clientes = clienteRepository.findClienteByNamePage(nomepesquisa, pageable);
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/addcliente");
 		modelAndView.addObject("clientes", clientes);
 		modelAndView.addObject("clienteobj", new Cliente());
 		modelAndView.addObject("nomepesquisa", nomepesquisa);
 
 		return modelAndView;
-	}*/
-
+	}
 
 
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
