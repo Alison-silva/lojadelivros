@@ -19,12 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alison.lojadelivros.model.Cliente;
@@ -39,6 +34,7 @@ import com.alison.lojadelivros.repository.LivroRepository;
 import com.alison.lojadelivros.service.LojaService;
 import com.alison.lojadelivros.service.NotaCompraService;
 import com.alison.lojadelivros.service.ReportUtil;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LojaController {
@@ -120,8 +116,11 @@ public class LojaController {
 	}
 
 	@GetMapping("/carrinho")
-	public ModelAndView chamarCarrinho() {
+	public ModelAndView chamarCarrinho(@ModelAttribute("clienteobj") Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+		if (cliente != null) {
+			compra.setCliente(cliente);
+		}
 		calcularTotal();
 		modelAndView.addObject("compra", compra);
 		modelAndView.addObject("listaitens", itensCompra);
@@ -152,6 +151,27 @@ public class LojaController {
 
 		return model;
 	}
+
+	//Mandar cliente para a pagina de carrinho
+	//@GetMapping("/addclicarrinho/{idcliente}")
+	/*public ModelAndView addclientecarrinho(@PathVariable("idcliente") Long idcliente) {
+		Cliente cliente = clienteRepository.findById(idcliente).get();
+		Compra compra = new Compra(); // Inicialize o objeto compra
+		compra.setCliente(cliente);
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/carrinho");
+		modelAndView.addObject("clienteobj", cliente);
+		modelAndView.addObject("compra", compra);
+		return modelAndView;
+	}*/
+
+	@GetMapping("/addclicarrinho/{idcliente}")
+	public String addclientecarrinho(@PathVariable("idcliente") Long idcliente, RedirectAttributes redirectAttributes) {
+		Cliente cliente = clienteRepository.findById(idcliente).get();
+		redirectAttributes.addFlashAttribute("clienteobj", cliente);
+		return "redirect:/carrinho";
+	}
+
 
 	//Pesquisar clientes por página
 	@PostMapping("**/pesquisarcliente3")
@@ -235,6 +255,10 @@ public class LojaController {
 	@PostMapping("/finalizarCompra")
 	public ModelAndView finalizarCompra(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView("cadastro/comprarealizada");
+		if (cliente.getId() == null) {
+			cliente = clienteRepository.saveAndFlush(cliente);
+		}
+
 		compra.setCliente(cliente);
 		compraRepository.saveAndFlush(compra);
 		for (ItensCompra c : itensCompra) {
