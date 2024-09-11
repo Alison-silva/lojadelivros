@@ -49,21 +49,21 @@
                 </div>
                 <div class="col-md-10">
                   <div class="form-group">
-                    <label for="razaoSocial" class="form-control-label">Título</label>
+                    <label for="titulo" class="form-control-label">Título</label>
                     <input class="form-control" type="text" id="titulo"  name="titulo"  th:field="*{titulo}">
                   </div>
                 </div>
                 
                  <div class="col-md-6">
                   <div class="form-group">
-                    <label for="nomeFantasia" class="form-control-label">Autor</label>
+                    <label for="autor" class="form-control-label">Autor</label>
                     <input class="form-control" type="text" id="autor"  name="autor" th:field="*{autor}"  >
                   </div>
                 </div>
                 
                  <div class="col-md-6">
                   <div class="form-group">
-                    <label for="inscricaoEstadual" class="form-control-label">ISBN</label>
+                    <label for="isbn" class="form-control-label">ISBN</label>
                     <input class="form-control" type="text" id="isbn"  name="isbn" th:field="*{isbn}" >
                   </div>
                 </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label for="cnpj" class="form-control-label">Ano</label>
+                    <label for="ano" class="form-control-label">Ano</label>
                     <input class="form-control" type="text" id="ano" name="ano"  th:field="*{ano}">
                   </div>
                 </div>
@@ -96,28 +96,28 @@
                 
                  <div class="col-md-4">
                   <div class="form-group">
-                    <label for="cep" class="form-control-label">Página</label>
+                    <label for="pagina" class="form-control-label">Página</label>
                     <input class="form-control" name="pagina"  id="pagina" th:field="*{pagina}"> 
                   </div>
                 </div>
                 
                 <div class="col-md-5">
                   <div class="form-group">
-                    <label for="bairro" class="form-control-label">Preço</label>
+                    <label for="preco" class="form-control-label">Preço</label>
                     <input class="form-control" name="preco"   id="preco" th:field="*{preco}" oninput="moeda(this)">
                   </div>
                 </div>
                 
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="bairro" class="form-control-label">Estoque</label>
+                    <label for="estoque" class="form-control-label">Estoque</label>
                     <input class="form-control" name="estoque"   id="estoque" th:field="*{estoque}" type="number">
                   </div>
                 </div>
                 
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label for="rua" class="form-control-label">Descrição</label>
+                    <label for="descricao" class="form-control-label">Descrição</label>
                     <textarea class="form-control" id="descricao" name="descricao" rows="3" th:field="*{descricao}"></textarea>
                   </div>
                 </div>
@@ -127,7 +127,7 @@
                     <label for="fornecedor" class="form-control-label">Fornecedor</label>
                    	<select class="form-select" id="fornecedor" name="fornecedor" th:field="*{fornecedor}">
                   
-						<option th:each="f : ${fornecedores}" th:value="${f.id}" th:text="${f.razaoSocial}">
+						<option th:each="f : ${fornecedores}" th:value="${f.id}" th:text="${f.nomeFantasia}">
 						
 					</select>
                   </div>
